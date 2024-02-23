@@ -46,10 +46,23 @@ const confirmar = async (req, res) => {
   }
 };
 
+//Para autenticar a los usuarios
+
+const autenticar = (req,res) => {
+    const {email,password} = req.body;
+    //Pasos para autenticar al usuario 
+    //1-Comprobar que el usuario existe
+    //2-Que su password esté bien escrito
+    //3-Comprobar que el password sea correcto
+    //4-Autenticar al usuario
+    console.log(email,password);
+    res.json("Autenticando..")
+}
+
 const perfil = (req, res) => {
   res.json({
     url: "Desde API/VETERINARIO/REGISTRAR",
   });
 };
 
-export { registrar, perfil, confirmar };
+export { registrar, perfil, confirmar, autenticar };
