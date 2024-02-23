@@ -2,10 +2,14 @@
   "name": "apv-backend",
   "version": "1.0.0",
   "description": "Proyecto de aula Software 1",
+  "type": "module",
   "main": "index.js",
   "scripts": {
     "start": "node index.js"
   },
   "author": "Fran",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
 }
