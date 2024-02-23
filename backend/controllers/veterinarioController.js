@@ -1,11 +1,19 @@
-const registrar = (req, res) => {
+import Veterinario from "../models/Veterinario.js";
+
+const registrar = async (req, res) => {
     //Aplicar destructuring para extraer los datos del formulario
-    const {email,password,nombre} = req.body;
-    console.log(nombre)
+    try{
+        //Guardar un nuevo veterinario en la base de datos
+        const veterinario = new Veterinario(req.body);
+        const veterinarioGuardado = await veterinario.save();
+
+        res.json(veterinarioGuardado);
+
+    }catch(error){
+        console.log(error);
+    }
     //el servidor nos responde con un mensaje en formato json
-  res.json({
-    msg: "Registrando usuario",
-  });
+
 };
 
 const perfil = (req, res) => {
