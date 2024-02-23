@@ -34,10 +34,12 @@ const confirmar = async (req, res) => {
     return res.status(404).json({ msg: error.message });
   }
   try {
-    //Si el veterinario existe, actualizamos el estado de la cuenta a true
+    //Si el veterinario existe, actualizamos el confirmado de la cuenta a true
     veterinario.token = null;
     veterinario.confirmado = true;
+    //Actualizamos al veterinario
     await veterinario.save();
+    //El servidor nos devuelve un json con un mensaje de confirmación
     res.json({ msg: "Usuario confirmado correctamente" });
   } catch (error) {
     console.log(error);

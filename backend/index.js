@@ -4,6 +4,7 @@ import conectarDB from "./config/db.js";
 import dotenv from "dotenv";
 import veterinarioRoutes from "./routes/veterinarioRoutes.js";
 
+//Middleware's
 
 const app = express();
 //Habilitamos a express de que pueda leer los datos que el usuario envien formato json
