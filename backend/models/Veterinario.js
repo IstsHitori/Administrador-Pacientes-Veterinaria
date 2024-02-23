@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-
+import generarId from "../helpers/generarId.js";
 //Creamos el esquema veterinario
 //no asignamos ID porque mongo lo asigna automaticamente
 const veterinarioSchema = new mongoose.Schema({
@@ -33,6 +33,7 @@ const veterinarioSchema = new mongoose.Schema({
     },
     token:{
         type:String,
+        default: generarId()
     },
     confirmado:{
         type:Boolean,
