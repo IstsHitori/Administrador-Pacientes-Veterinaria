@@ -1,0 +1,11 @@
+{
+  "name": "apv-backend",
+  "version": "1.0.0",
+  "description": "Proyecto de aula Software 1",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "author": "Fran",
+  "license": "ISC"
+}
