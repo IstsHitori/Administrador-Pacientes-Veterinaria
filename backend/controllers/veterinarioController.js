@@ -48,15 +48,29 @@ const confirmar = async (req, res) => {
 
 //Para autenticar a los usuarios
 
-const autenticar = (req,res) => {
+const autenticar = async (req,res) => {
     const {email,password} = req.body;
     //Pasos para autenticar al usuario 
     //1-Comprobar que el usuario existe
-    //2-Que su password esté bien escrito
-    //3-Comprobar que el password sea correcto
-    //4-Autenticar al usuario
+    const usuario = await Veterinario.findOne({email});
+    if(!usuario){
+      const error = new Error("El usuario no existe");
+      //status 403 - no autorizado 
+      return res.status(403).json({msg:error.message});
+    }
+    //2-Comprobar si el usuario está confirmado
+    if(!usuario.confirmado){
+      const error = new Error("Usuario no confirmado");
+      return res.status(403).json({msg:error.message});
+    }
+    //3-Revisar si su password es correcto
+    if(!(await usuario.comprobarPassword(password))){
+      const error = new Error("Contraseña incorrecta");
+      return res.status(403).json({msg:error.message});
+    }
+    //4-Autenticar al usuario con JSON WEB TOKEN
     console.log(email,password);
-    res.json("Autenticando..")
+    res.json({msg:"Usuario autenticado correctamente"});
 }
 
 const perfil = (req, res) => {
