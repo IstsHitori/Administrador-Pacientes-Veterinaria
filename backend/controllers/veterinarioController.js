@@ -74,7 +74,6 @@ const autenticar = async (req,res) => {
     res.json({token:generarJWT(usuario.id)});
 }
 
-
 //Para recuperar la contraseña
 const olvidePassword = async (req,res) => {
   const {email} = req.body;
