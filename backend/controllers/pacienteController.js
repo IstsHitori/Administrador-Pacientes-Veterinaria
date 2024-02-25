@@ -21,7 +21,73 @@ const obtenerPacientes = async (req, res) => {
     res.json(pacientes);
 }
 
+const obtenerPaciente = async (req, res) => {
+    const {id} = req.params;
+    const paciente = await Paciente.findById(id);
+    if(!paciente){
+        const error = new Error("Paciente no encontrado");
+        return res.status(404).json({msg:error.message});
+    }
+    if(paciente.veterinario._id.toString() !== req.veterinario._id.toString()){
+        const error = new Error("No tienes permiso para ver este paciente");
+        return res.json({msg:error.message});
+    }
+    res.json(paciente);
+}
+
+const actualizarPaciente = async (req, res) => {
+    const {id} = req.params;
+    const paciente = await Paciente.findById(id);
+    if(!paciente){
+        const error = new Error("Paciente no encontrado");
+        return res.status(404).json({msg:error.message});
+    }
+    if(paciente.veterinario._id.toString() !== req.veterinario._id.toString()){
+        const error = new Error("No tienes permiso para editar este paciente");
+        return res.json({msg:error.message});
+    }
+
+    //Actualizamos el paciente
+    paciente.nombre = req.body.nombre || paciente.nombre;
+    paciente.propietario = req.body.propietario || paciente.propietario;
+    paciente.email = req.body.email || paciente.email;
+    paciente.fecha = req.body.fecha || paciente.fecha;
+    paciente.sintomas = req.body.sintomas || paciente.sintomas;
+
+    try{
+        const pacienteActualizado = await paciente.save();
+        return res.json(pacienteActualizado)
+    }catch(error){
+        console.log(error);
+    }   
+}
+
+const eliminarPaciente = async (req, res) => {
+    const {id} = req.params;
+    const paciente = await Paciente.findById(id);
+    if(!paciente){
+        const error = new Error("Paciente no encontrado");
+        return res.status(404).json({msg:error.message});
+    }
+    if(paciente.veterinario._id.toString() !== req.veterinario._id.toString()){
+        const error = new Error("No tienes permiso para eliminar este paciente");
+        return res.json({msg:error.message});
+    }
+
+    //Eliminamos el paciente
+    try{
+        await paciente.deleteOne();
+        res.json({msg:"Paciente eliminado"});
+    }
+    catch(error){
+            console.log(error);
+        }   
+}
+
 export {
     agregarPaciente,
-    obtenerPacientes
+    obtenerPacientes,
+    obtenerPaciente,
+    actualizarPaciente,
+    eliminarPaciente
 }
