@@ -28,9 +28,10 @@ const veterinarioSchema = new mongoose.Schema({
         default:null,
         trim:true
     },
-    web:{
-        type:String,
-        default:null,
+    rol:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"Roles",
+        default:"65dbb891df9ab26524666255"
     },
     token:{
         type:String,

@@ -74,6 +74,7 @@ const autenticar = async (req,res) => {
     res.json({token:generarJWT(usuario.id)});
 }
 
+
 //Para recuperar la contraseña
 const olvidePassword = async (req,res) => {
   const {email} = req.body;
@@ -130,8 +131,8 @@ const nuevoPassword = async (req,res) => {
   }
 }
 
-const perfil = (req, res) => {
-  const {veterinario } = req;
+const perfil = async (req, res) => {
+  const veterinario = await Veterinario.findById(req.veterinario._id).populate("rol","-_id nombre").select("-password");
   res.json({
     veterinario
   });

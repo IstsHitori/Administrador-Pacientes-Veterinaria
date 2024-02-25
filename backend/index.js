@@ -4,7 +4,7 @@ import conectarDB from "./config/db.js";
 import dotenv from "dotenv";
 import veterinarioRoutes from "./routes/veterinarioRoutes.js";
 import pacienteRoutes from "./routes/pacienteRoutes.js";
-
+import rolesRoutes from "./routes/rolesRoutes.js";
 //Middleware's
 
 const app = express();
@@ -19,6 +19,8 @@ app.use("/api/veterinarios",veterinarioRoutes);
 //Routing para pacientes
 app.use("/api/pacientes",pacienteRoutes);
 
+//Routing para roles
+app.use("/api/roles", rolesRoutes);
 const PORT = process.env.PORT || 4000;
 
 //Registramos el servidor en el puerto 4000

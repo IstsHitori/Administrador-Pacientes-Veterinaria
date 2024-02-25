@@ -84,10 +84,16 @@ const eliminarPaciente = async (req, res) => {
         }   
 }
 
+const obtenerHistorialMascota = async (req, res) => {
+    console.log("Obteniendo historial de mascota");
+}
+
 export {
     agregarPaciente,
     obtenerPacientes,
     obtenerPaciente,
     actualizarPaciente,
-    eliminarPaciente
+    eliminarPaciente,
+    obtenerHistorialMascota
+
 }
