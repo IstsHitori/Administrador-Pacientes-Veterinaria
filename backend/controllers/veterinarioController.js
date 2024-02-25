@@ -1,4 +1,5 @@
 import Veterinario from "../models/Veterinario.js";
+import generarJWT from "../helpers/generarJWT.js";
 //Para registrar al usuario
 const registrar = async (req, res) => {
   //Aplicar destructuring para extraer los datos del formulario
@@ -69,13 +70,12 @@ const autenticar = async (req,res) => {
       return res.status(403).json({msg:error.message});
     }
     //4-Autenticar al usuario con JSON WEB TOKEN
-    console.log(email,password);
-    res.json({msg:"Usuario autenticado correctamente"});
+    res.json({token:generarJWT(usuario.id)});
 }
 
 const perfil = (req, res) => {
   res.json({
-    url: "Desde API/VETERINARIO/REGISTRAR",
+    url: "Mostrando perfil",
   });
 };
 
