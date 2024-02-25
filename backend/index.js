@@ -3,6 +3,7 @@ import conectarDB from "./config/db.js";
 //Para las variables de entorno en el archivo .env
 import dotenv from "dotenv";
 import veterinarioRoutes from "./routes/veterinarioRoutes.js";
+import pacienteRoutes from "./routes/pacienteRoutes.js";
 
 //Middleware's
 
@@ -12,8 +13,11 @@ app.use(express.json());
 dotenv.config();
 
 conectarDB();
-//Routing
+//Routing para veterinarios
 app.use("/api/veterinarios",veterinarioRoutes);
+
+//Routing para pacientes
+app.use("/api/pacientes",pacienteRoutes);
 
 const PORT = process.env.PORT || 4000;
 

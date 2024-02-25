@@ -4,7 +4,7 @@ const pacienteSchema = mongoose.Schema({
   nombre: { type: String, required: true },
   propietario: { type: String, required: true },
   email: { type: String, required: true },
-  fechaAlta : { type: Date,required: true },
+  fecha : { type: Date,required: true, default: Date.now()},
   sintomas: { type: String, required: true },
   //Para saber quien es el veterinario que atiende a este paciente
   veterinario: {type:mongoose.Schema.Types.ObjectId, 
