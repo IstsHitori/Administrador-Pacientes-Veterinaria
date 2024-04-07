@@ -26,7 +26,8 @@ const Login = () => {
         email,password
       });
       localStorage.setItem("token",data.token);
-
+      //para que me envíe a la
+      navigate("/admin")
     }catch(error){
       setAlerta({msg:error.response.data.msg,error:true})
     }

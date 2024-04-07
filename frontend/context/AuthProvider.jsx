@@ -3,12 +3,16 @@ import clienteAxios from "../src/config/axios";
 const AuthContext = createContext();
 
 const AuthProvider = ({children}) =>{
-
+    const [cargando,setCargando] = useState(true);
     const [auth,setAuth] = useState({});
     useEffect(() =>{
         const autenticarUsuario = async() => {
             const token = localStorage.getItem("token");
-            if(!token) return;
+            console.log("token:", token)
+            if(!token) {
+                setCargando(false);
+                return;
+            }
 
             //Configuración del header
             const config = {
@@ -24,6 +28,7 @@ const AuthProvider = ({children}) =>{
                 console.log(error.response.data.msg)
                 setAuth({});
             }
+            setCargando(false);
         }
         autenticarUsuario();
     },[]);
@@ -32,7 +37,8 @@ const AuthProvider = ({children}) =>{
         <AuthContext.Provider
             value={{
                 auth,
-                setAuth
+                setAuth,
+                cargando
             }}
         >
             {/*Aquí estarán todos los componentes dentro del AuthProvider de App.jsx */}
