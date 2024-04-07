@@ -23,16 +23,22 @@ const obtenerPacientes = async (req, res) => {
 
 const obtenerPaciente = async (req, res) => {
     const {id} = req.params;
-    const paciente = await Paciente.findById(id);
-    if(!paciente){
-        const error = new Error("Paciente no encontrado");
-        return res.status(404).json({msg:error.message});
+    try{
+        const paciente = await Paciente.findById(id);
+        if(!paciente){
+            const error = new Error("Paciente no encontrado");
+            return res.status(404).json({msg:error.message});
+        }
+        if(paciente.veterinario._id.toString() !== req.veterinario._id.toString()){
+            const error = new Error("No tienes permiso para ver este paciente");
+            return res.json({msg:error.message});
+        }
+        res.json(paciente);
+        req.paciente = paciente;
+    }catch(error){
+        console.log(error);
     }
-    if(paciente.veterinario._id.toString() !== req.veterinario._id.toString()){
-        const error = new Error("No tienes permiso para ver este paciente");
-        return res.json({msg:error.message});
-    }
-    res.json(paciente);
+
 }
 
 const actualizarPaciente = async (req, res) => {
@@ -84,9 +90,6 @@ const eliminarPaciente = async (req, res) => {
         }   
 }
 
-const obtenerHistorialMascota = async (req, res) => {
-    console.log("Obteniendo historial de mascota");
-}
 
 export {
     agregarPaciente,
@@ -94,6 +97,4 @@ export {
     obtenerPaciente,
     actualizarPaciente,
     eliminarPaciente,
-    obtenerHistorialMascota
-
 }

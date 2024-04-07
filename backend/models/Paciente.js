@@ -3,11 +3,14 @@ import mongoose from "mongoose";
 const pacienteSchema = mongoose.Schema({
   nombre: { type: String, required: true },
   propietario: { type: String, required: true },
+  docPropietario: {type:String, required: true},
   email: { type: String, required: true },
   fecha : { type: Date,required: true, default: Date.now()},
   sintomas: { type: String, required: true },
+  estado: {type: Boolean, default: true},
+  tamaño:{type:String, required: true},
   //Para saber quien es el veterinario que atiende a este paciente
-  agendadoPor: {type:mongoose.Schema.Types.ObjectId, 
+  veterinario: {type:mongoose.Schema.Types.ObjectId, 
     //Referencia al modelo de veterinario
     ref:'Veterinario'}
 }, {
@@ -17,4 +20,4 @@ const pacienteSchema = mongoose.Schema({
 
 const Paciente = mongoose.model("Paciente",pacienteSchema);
 
-export default Paciente;
+export default Paciente;  

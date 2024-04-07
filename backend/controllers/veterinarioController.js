@@ -1,12 +1,14 @@
 import Veterinario from "../models/Veterinario.js";
 import generarJWT from "../helpers/generarJWT.js";
 import generarId from "../helpers/generarId.js";
+import emailRegistro from "../helpers/emailRegistro.js";
+import emailOlvidePassword from "../helpers/emailOlvidePassword.js";
 //Para registrar al usuario
 const registrar = async (req, res) => {
   //Aplicar destructuring para extraer los datos del formulario
 
   //Revisar si un usuario ya está registrado
-  const { email } = req.body;
+  const { email,nombre } = req.body;
 
   //Nos traemos con findOne un registro de la base de datos
   const existeUsuario = await Veterinario.findOne({ email });
@@ -21,6 +23,8 @@ const registrar = async (req, res) => {
     const veterinario = new Veterinario(req.body);
     const veterinarioGuardado = await veterinario.save();
     //el servidor nos responde con un mensaje en formato json
+    emailRegistro({email,nombre,token:veterinarioGuardado.token});
+
     res.json(veterinarioGuardado);
   } catch (error) {
     console.log(error);
@@ -87,6 +91,13 @@ const olvidePassword = async (req,res) => {
   try{
     existeVeterinario.token = generarId();
     await existeVeterinario.save();
+    //Enviar email con instrucciones
+    emailOlvidePassword({
+      email,
+      nombre:existeVeterinario.nombre,
+      token:existeVeterinario.token
+    })
+
     //Enviar un email al usuario con el token
     res.json({msg:"Se ha enviado un email con las instrucciones al usuario"})
   }catch(error){
