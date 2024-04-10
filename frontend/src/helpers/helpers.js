@@ -18,7 +18,6 @@ const Trabajadores = (data) => {
     }
 }
 
-
 export{
     ROLES,Trabajadores
 }
