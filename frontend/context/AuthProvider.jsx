@@ -25,10 +25,14 @@ const AuthProvider = ({children}) =>{
 
                 //Información personal
                 const info =  (await clienteAxios("/veterinarios/perfil",config)).data;
-                //Información sobre sus veterinarios
+                //Información sobre sus trabajadores
                 const trabajadores = (await clienteAxios("/veterinarios/mostrar-trabajadores",config)).data
-            
-                setAuth({info,trabajadores})
+                //Información sobre los pacientes
+                const pacientes = (await clienteAxios("/pacientes/",config)).data
+                //Información sobre las historias clínicas
+                const historias = (await clienteAxios("/historias/",config)).data
+
+                setAuth({info,trabajadores,pacientes,historias})
             }catch(error){
                 console.log(error.response.data.msg)
                 setAuth({});
