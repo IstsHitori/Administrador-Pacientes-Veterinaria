@@ -10,7 +10,7 @@ const AuthLayout = () => {
         <div className="min-w-full min-h-screen absolute bg-gradient-to-r from-primero to-segundo opacity-70 z-0"></div>
         <div className="min-w-full min-h-screen absolute bg-gradient-to-r from-primero to-segundo opacity-80 z-0 "></div>
         <div className="min-w-full min-h-screen absolute bg-gradient-to-r from-primero to-segundo opacity-60 z-0"></div>
-        <div className="relative z-10 text-white overflow-hidden min-h-screen">
+        <div className="relative z-10 text-white overflow-hidden">
           <Outlet />
         </div>
       </main>

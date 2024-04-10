@@ -7,8 +7,9 @@ import Registrar from "./paginas/Registrar";
 import OlvidePassword from "./paginas/OlvidePassword";
 import ConfirmarCuenta from "./paginas/ConfirmarCuenta";
 import NuevoPassword from "./paginas/NuevoPassword";
-import AdministrarPacientes from "./paginas/AdministrarPacientes";
-
+import AdminDashBoard from "./paginas_admin/AdminDashBoard";
+import AuxiliarDashBoard from "./paginas_auxiliar/AuxiliarDashBoard";
+import VeterinarioDashBoard from "./paginas_veterinario/VeterinarioDashBoard";
 //Provider
 import { AuthProvider } from "../context/AuthProvider";
 
@@ -27,8 +28,16 @@ function App() {
           </Route>
 
           {/* AREA PRIVADA */}
-          <Route path="/admin" element={<RutaProtegida />}>
-            <Route index element={<AdministrarPacientes />} />
+          <Route path="/admin-dashboard" element={<RutaProtegida />}>
+            <Route index element={<AdminDashBoard />} />
+          </Route>
+
+          <Route path="/auxiliar-dashboard" element={<RutaProtegida />}>
+            <Route index element={<AuxiliarDashBoard />} />
+          </Route>
+
+          <Route path="/veterinario-dashboard" element={<RutaProtegida />}>
+            <Route index element={<VeterinarioDashBoard />} />
           </Route>
         </Routes>
       </AuthProvider>

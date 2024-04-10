@@ -4,14 +4,12 @@ import { useState } from "react";
 import Alerta from "../components/Alerta";
 import clienteAxios from "../config/axios";
 
-
 const Login = () => {
   const {auth} = useAuth();
-
   const [email,setEmail] = useState("");
   const [password,setPassword] = useState("");
   const [alerta,setAlerta] = useState({});
-
+  
   const navigate = useNavigate();
 
   //Submit form
@@ -26,9 +24,20 @@ const Login = () => {
         email,password
       });
       localStorage.setItem("token",data.token);
-      //para que me envíe a la
-      navigate("/admin")
+      //Para saber que rol es
+      console.log(auth)
+      const rol = auth.info.veterinario.rol.nombre;
+      //para que nos envíe a la ruta del rol envíe a la
+      console.log("aaaa")
+      if(rol === "ADMIN_ROL"){
+        navigate("/admin-dashboard");
+      }else if( rol === "AUXILIAR_ROL"){
+        navigate("/auxiliar-dashboard");
+      }else{
+        navigate("/veterinario-dashboard");
+      }
     }catch(error){
+      console.log(error)
       setAlerta({msg:error.response.data.msg,error:true})
     }
   }
@@ -43,7 +52,7 @@ const Login = () => {
             <span className="text-blue-500">.</span>
           </p>
         </header>
-        <div className="mt-[5rem] mx-9">
+        <div className="mt-[2rem] mx-9">
           <h3 className="text-[24px]">
             Inicia sesión en tu cuenta<span className="text-blue-500">.</span>
           </h3>

@@ -1,19 +1,15 @@
 import { Outlet, Navigate } from "react-router-dom";
-
 import useAuth from "../hooks/useAuth";
-import Nav from "../components/Nav";
-import Main from "../components/Main";
 
 const RutaProtegida = () => {
   const { auth, cargando } = useAuth();
-  const {veterinario} = auth;
+  if(cargando) return "";
   return (
-    <>
-      <Nav />
-      <div>RutaProtegida</div>
-      {veterinario._id ? <Outlet /> : <Navigate to="/" />}
-      <Main />
-    </>
+    <div className="min-h-screen bg-gradient-to-t from-black to-blue-950 flex">
+      {/* Está malo no debe ser tan largo, debe ser veterinario?._id */}
+      {auth.info.veterinario?._id ? <Outlet /> : <Navigate to="/" />}
+
+    </div>
   );
 };
 
