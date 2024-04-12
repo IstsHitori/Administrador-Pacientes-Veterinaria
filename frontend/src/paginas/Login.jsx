@@ -5,43 +5,45 @@ import Alerta from "../components/Alerta";
 import clienteAxios from "../config/axios";
 
 const Login = () => {
-  const {auth} = useAuth();
-  const [email,setEmail] = useState("");
-  const [password,setPassword] = useState("");
-  const [alerta,setAlerta] = useState({});
-  
+  const { auth } = useAuth();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [alerta, setAlerta] = useState({});
+
   const navigate = useNavigate();
+  const { setAuth } = useAuth();
 
   //Submit form
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if([email,password].includes("")){
-      setAlerta({msg:"Hay campos vacíos",error:true});
+    if ([email, password].includes("")) {
+      setAlerta({ msg: "Hay campos vacíos", error: true });
       return;
     }
-    try{
-      const {data} = await clienteAxios.post("/veterinarios/login",{
-        email,password
+    try {
+      const { data } = await clienteAxios.post("/veterinarios/login", {
+        email,
+        password,
       });
-      localStorage.setItem("token",data.token);
+      localStorage.setItem("token", data.token);
       //Para saber que rol es
-      console.log(auth)
+      console.log(auth);
       const rol = auth.info.veterinario.rol.nombre;
       //para que nos envíe a la ruta del rol envíe a la
-      console.log("aaaa")
-      if(rol === "ADMIN_ROL"){
+      console.log("aaaa");
+      if (rol === "ADMIN_ROL") {
         navigate("/admin-dashboard");
-      }else if( rol === "AUXILIAR_ROL"){
+      } else if (rol === "AUXILIAR_ROL") {
         navigate("/auxiliar-dashboard");
-      }else{
+      } else {
         navigate("/veterinario-dashboard");
       }
-    }catch(error){
-      console.log(error)
-      setAlerta({msg:error.response.data.msg,error:true})
+    } catch (error) {
+      console.log(error);
+      setAlerta({ msg: error.response.data.msg, error: true });
     }
-  }
-  const {msg} = alerta;
+  };
+  const { msg } = alerta;
   return (
     <>
       <div className="p-14 min-h-screen flex flex-col items-center justify-center md:block">
@@ -62,8 +64,12 @@ const Login = () => {
               <Link to="/registrar"> Crea una aquí</Link>
             </span>
           </p>
-          {msg && <Alerta alerta={alerta}/>}
-          <form action="" className="mt-8 transition-all" onSubmit={handleSubmit}>
+          {msg && <Alerta alerta={alerta} />}
+          <form
+            action=""
+            className="mt-8 transition-all"
+            onSubmit={handleSubmit}
+          >
             <div className="flex flex-col p-3 px-5 bg-zinc-800 rounded-xl w-[25rem] ">
               <label className="text-[10px] text-zinc-500 font-bold">
                 Correo
@@ -72,7 +78,7 @@ const Login = () => {
                 className="outline-none bg-zinc-800 text-[12px] mt-1"
                 type="email"
                 name=""
-                onChange={e => setEmail(e.target.value)}
+                onChange={(e) => setEmail(e.target.value)}
                 value={email}
                 id=""
               />
@@ -86,7 +92,7 @@ const Login = () => {
                 className="outline-none bg-zinc-800 text-[12px] mt-1"
                 type="password"
                 name=""
-                onChange={e => setPassword(e.target.value)}
+                onChange={(e) => setPassword(e.target.value)}
                 value={password}
                 id=""
               />

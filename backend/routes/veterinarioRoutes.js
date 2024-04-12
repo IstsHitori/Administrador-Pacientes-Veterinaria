@@ -1,5 +1,5 @@
 import express from "express";
-import { registrar, perfil, confirmar, autenticar, olvidePassword, comprobarToken, nuevoPassword, obtenerTrabajadores } from "../controllers/veterinarioController.js";
+import { registrar, perfil, confirmar, autenticar, olvidePassword, comprobarToken, nuevoPassword, obtenerTrabajadores, actualizarTrabajador} from "../controllers/veterinarioController.js";
 import checkAuth from "../middleware/authMiddleware.js";
 
 const router = express.Router();
@@ -19,6 +19,7 @@ router.route("/olvide-password/:token").get(comprobarToken).post(nuevoPassword);
 
 //Area privada
 //Routing de login(para cuando vayamos a iniciar sesion hagamos una peticion get y cargue el perfil del veterinario que se logueo)
+router.put("/actualizar-trabajador/:id",checkAuth,actualizarTrabajador)
 router.get("/perfil", checkAuth,perfil);
 router.get("/mostrar-trabajadores",checkAuth,obtenerTrabajadores )
 

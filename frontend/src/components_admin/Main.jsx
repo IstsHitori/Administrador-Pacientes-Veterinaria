@@ -1,8 +1,27 @@
 //MAIN ADMIN-DASHBOARD
 import useAuth from "../hooks/useAuth";
 import { ROLES, Trabajadores } from "../helpers/helpers.js";
+import { useLocation } from "react-router-dom";
+import { useEffect, useState } from "react";
+
+//------
+import Empleados from "./Empleados.jsx";
+import Dashboard from "./Dashboard.jsx";
+import AddEmpleados from "./AddEmpleados.jsx";
+import Pacientes from "./Pacientes.jsx";
+import AddPacientes from "./AddPacientes.jsx";
+import Historias from "./Historias.jsx";
+import AddHistorias from "./AddHistorias.jsx";
 
 const Main = () => {
+  //
+  const location = useLocation();
+  const [activePath, setActivePath] = useState(location.pathname);
+
+  useEffect(() => {
+    setActivePath(location.pathname);
+  }, [location]);
+
   const { auth } = useAuth();
   const { info } = auth;
   console.log(auth);
@@ -15,64 +34,40 @@ const Main = () => {
   const cantidadHistorias = auth.historias.length;
   //cantidad trabajadores
   console.log(trabajadores);
+
   return (
-    <main className="p-3 flex items-center w-full pt-[5rem]">
-      <section className="bg-gradient-to-t from-black to-gray-900 h-full rounded-xl w-full p-5 py-7">
-        <div className="text-center md:text-left md:px-16">
-          <h2 className="text-gray-300">
-            Bienvenido de vuelta,
-            <span className="font-bold"> {info.veterinario.nombre}!!</span>
-          </h2>
-          <p className="text-zinc-500 text-[12px]">
-            Tu Admin Dashboard, vuelve y explora la información de tu
-            veterinaria
-          </p>
-        </div>
-        <div className="mt-10 grid md:grid-cols-2 gap-2">
-          <article className="rounded-[10px] bg-card p-5 max-h-[200px] md:h-[180px]">
-            <div>
-              <p className="text-[12px] text-zinc-600">Estadistica</p>
-              <p className="text-white text-[14px]">Veterinarios</p>
-            </div>
-            <div>
-              <p className="text-[2.5rem] text-center text-blue-500">
-                {trabajadores.VETERINARIOS.cantidad}
-              </p>
-            </div>
-          </article>
+    <main className="p-3 flex items-center md:w-full pt-[5rem]">
+      <section className="bg-gradient-to-t from-black  h-full to-gray-900 rounded-xl md:w-full p-5 py-7">
+        {activePath === "/admin-dashboard" ? (
+          <Dashboard
+            info={info}
+            trabajadores={trabajadores}
+            cantidadHistorias={cantidadHistorias}
+            cantidadPacientes={cantidadPacientes}
+          />
+        ) : (
+          ""
+        )}
 
-          <article className="rounded-[10px] bg-card p-5 max-h-[200px] md:h-[180px]">
-            <div>
-              <p className="text-[12px] text-zinc-600">Estadistica</p>
-              <p className="text-white text-[14px]">Auxiliares</p>
-            </div>
-            <div>
-              <p className="text-[2.5rem] text-center text-blue-500">
-                {trabajadores.AUXILIARES.cantidad}
-              </p>
-            </div>
-          </article>
+        {activePath === "/admin-dashboard/empleados" ? <Empleados info={info} trabajadores={trabajadores}/> : ""}
 
-          <article className="rounded-[10px] bg-card p-5 max-h-[200px] md:h-[180px]">
-            <div>
-              <p className="text-[12px] text-zinc-600">Estadistica</p>
-              <p className="text-white text-[14px]">Pacientes</p>
-            </div>
-            <div>
-              <p className="text-[2.5rem] text-center text-blue-500">{cantidadPacientes}</p>
-            </div>
-          </article>
-
-          <article className="rounded-[10px] bg-card p-5 max-h-[200px] md:h-[180px]">
-            <div>
-              <p className="text-[12px] text-zinc-600">Estadistica</p>
-              <p className="text-white text-[14px]">Hisotorias Clínicas</p>
-            </div>
-            <div>
-              <p className="text-[2.5rem] text-center text-blue-500">{cantidadHistorias}</p>
-            </div>
-          </article>
-        </div>
+        {activePath === "/admin-dashboard/agregar-empleados" ? (
+          <AddEmpleados />
+        ) : (
+          ""
+        )}
+        {activePath === "/admin-dashboard/pacientes" ? <Pacientes /> : ""}
+        {activePath === "/admin-dashboard/agregar-pacientes" ? (
+          <AddPacientes />
+        ) : (
+          ""
+        )}
+        {activePath === "/admin-dashboard/historias" ? <Historias /> : ""}
+        {activePath === "/admin-dashboard/agregar-historias" ? (
+          <AddHistorias />
+        ) : (
+          ""
+        )}
       </section>
     </main>
   );

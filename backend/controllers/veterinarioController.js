@@ -141,6 +141,11 @@ const nuevoPassword = async (req, res) => {
   }
 };
 
+//Para actualizar trabajador
+const actualizarTrabajador = async (req,res) => {
+  console.log("veterinario:",req.veterinario)
+}
+
 //Para obtener todos los veterinarios
 const obtenerTrabajadores = async(req,res) => {
   //Acceder al rol del veterinario
@@ -177,5 +182,6 @@ export {
   olvidePassword,
   comprobarToken,
   nuevoPassword,
-  obtenerTrabajadores
+  obtenerTrabajadores,
+  actualizarTrabajador
 };
