@@ -8,14 +8,12 @@ const checkAuth = async (req,res,next) => {
         try{
             //Extraemos el token
             token = req.headers.authorization.split(" ")[1];
-            console.log(token);
 
             //Decodificamos el token
             const decoded = jwt.verify(token, process.env.JWT_SECRET);
             //Buscamos al usuario por el id
             //Nos trae todos los datos del usuario menos la contraseña
             req.veterinario = await Veterinario.findById(decoded.id).select("-password -token -confirmado");
-            console.log("decoded:",req.veterinario)
 
             return next();
         }catch(error){

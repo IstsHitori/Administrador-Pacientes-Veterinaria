@@ -143,7 +143,19 @@ const nuevoPassword = async (req, res) => {
 
 //Para actualizar trabajador
 const actualizarTrabajador = async (req,res) => {
-  console.log("veterinario:",req.veterinario)
+  
+  try{
+    const EMPLEADO = await Veterinario.findById(req.body._id);
+    if(!EMPLEADO){
+      res.json({msg:`No se encontró el empleado`})
+    }
+    console.log("EMPLEADO ORIGINAL:" , EMPLEADO);
+    console.log("EMPLEADO CAMBIAR:" , req.body);
+    EMPLEADO.estado = req.body.estado;
+    const empledadoActualizado = await EMPLEADO.save();
+  }catch(error){
+    console.log(error);
+  }
 }
 
 //Para obtener todos los veterinarios

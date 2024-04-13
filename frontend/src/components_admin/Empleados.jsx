@@ -14,9 +14,8 @@ const Empleados = ({ info, trabajadores }) => {
     VETERINARIOS.veterinarios
   );
   const { auth } = useAuth();
-  console.log("auth:", auth);
 
-  const [empleados, setEmpleados] = useState({ array_trabajadores });
+  const [empleados, setEmpleados] = useState(array_trabajadores);
   const handleSubmit = async (e) => {
     e.preventDefault();
     const token = localStorage.getItem("token");
@@ -29,11 +28,12 @@ const Empleados = ({ info, trabajadores }) => {
       },
     };
     try {
-      console.log("config",config)
-      const respuesta = await clienteAxios.put(
-        "/veterinarios/actualizar-trabajador/:123",
-        config
-      );
+      empleados.forEach( async empleado => {
+        await clienteAxios.put(
+          `/veterinarios/actualizar-trabajador/${empleado._id}`, empleado,
+          config
+        );
+      });
     } catch (error) {
       console.log(error);
     }

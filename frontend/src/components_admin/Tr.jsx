@@ -3,6 +3,8 @@ import { useState } from "react";
 const Tr = ({ clase, contenido, onEstadoChange }) => {
   const { nombre, email, telefono, estado, confirmado, rol, _id } = contenido;
   const [estate, setState] = useState(estado);
+  const ESTADO_1 = estate.toString();
+  const ESTADO_2 = (!estate).toString();
   return (
     <tr className={clase}>
       <th className="font-[300] p-2">{nombre}</th>
@@ -19,14 +21,14 @@ const Tr = ({ clase, contenido, onEstadoChange }) => {
           }`}
         >
           <option
-            className="bg-[#0C1D14] text-[#48FFAF]"
-            value={`true`}
+            className={`${estate ? "bg-[#0C1D14] text-[#48FFAF]" : "bg-[#2C1317] text-[#FF3461]"}`}
+            value={estate}
           >
-            Activo
+            {ESTADO_1}
           </option>
 
-          <option className="bg-[#2C1317] text-[#FF3461]" value={`false`}>
-            Inactivo
+          <option className={`${estate} ? "bg-[#0C1D14] text-[#48FFAF]" : "bg-[#2C1317] text-[#FF3461]"`} value={!estate}>
+            {ESTADO_2}
           </option>
         </select>
       </th>
