@@ -142,40 +142,48 @@ const nuevoPassword = async (req, res) => {
 };
 
 //Para actualizar trabajador
-const actualizarTrabajador = async (req,res) => {
-  
-  try{
+const actualizarTrabajador = async (req, res) => {
+  try {
     const EMPLEADO = await Veterinario.findById(req.body._id);
-    if(!EMPLEADO){
-      res.json({msg:`No se encontró el empleado`})
+    if (!EMPLEADO) {
+      res.json({ msg: `No se encontró el empleado` });
     }
-    console.log("EMPLEADO ORIGINAL:" , EMPLEADO);
-    console.log("EMPLEADO CAMBIAR:" , req.body);
+    console.log("EMPLEADO ORIGINAL:", EMPLEADO);
+    console.log("EMPLEADO CAMBIAR:", req.body);
     EMPLEADO.estado = req.body.estado;
     const empledadoActualizado = await EMPLEADO.save();
-  }catch(error){
+  } catch (error) {
     console.log(error);
   }
-}
+};
 
 //Para obtener todos los veterinarios
-const obtenerTrabajadores = async(req,res) => {
+const obtenerTrabajadores = async (req, res) => {
   //Acceder al rol del veterinario
   const veterinarioRol = req.veterinario.rol;
   //Traerme rol admin
-  const rolAdmin = (await Roles.find().where("nombre").equals("ADMIN_ROL").select("-nombre"))[0]._id;
+  const rolAdmin = (
+    await Roles.find().where("nombre").equals("ADMIN_ROL").select("-nombre")
+  )[0]._id;
 
   //validar si el
-  if(veterinarioRol.toString() !== rolAdmin.toString()) return res.status(404).json({msg:"No tienes permiso para esta acción"});
-    const nombreRolesPermitidos = ["VETERINARIO_ROL","AUXILIAR_ROL"];
-    //traerme los roles que sean veterinario
-    const roles = (await Roles.find().where("nombre").in(nombreRolesPermitidos).select("-nombre"));
-  
-  const trabajadores = await Veterinario.find().where("rol").in(roles).populate("rol","-_id nombre").select("-password");
+  if (veterinarioRol.toString() !== rolAdmin.toString())
+    return res.status(404).json({ msg: "No tienes permiso para esta acción" });
+  const nombreRolesPermitidos = ["VETERINARIO_ROL", "AUXILIAR_ROL"];
+  //traerme los roles que sean veterinario
+  const roles = await Roles.find()
+    .where("nombre")
+    .in(nombreRolesPermitidos)
+    .select("-nombre");
 
+  const trabajadores = await Veterinario.find()
+    .where("rol")
+    .in(roles)
+    .populate("rol", "-_id nombre")
+    .select("-password");
 
-  res.json({trabajadores});
-}
+  res.json({ trabajadores });
+};
 
 const perfil = async (req, res) => {
   const veterinario = await Veterinario.findById(req.veterinario._id)
@@ -184,6 +192,27 @@ const perfil = async (req, res) => {
   res.json({
     veterinario,
   });
+};
+
+//Registrar el trabajador
+const registrarTrabajador = async (req, res) => {
+  const { email, rol } = req.body;
+  const nombreRol = { nombre: rol };
+  const existeEmpleado = await Veterinario.findOne({ email });
+
+  if (existeEmpleado) {
+    const error = new Error(
+      "Este empleado ya está registrado con este correo."
+    );
+    return res.status(400).json({ msg: error.message });
+  }
+  const idRol = (await Roles.findOne( nombreRol ))._id;
+  const empleado = new Veterinario(req.body);
+  empleado.rol = idRol;
+  const empleadoGuardado = await empleado.save();
+  emailRegistro({email,nombre:empleadoGuardado.nombre,token:empleadoGuardado.token});
+
+  return res.json({ msg: "Empleado registrado correctamente." });
 };
 
 export {
@@ -195,5 +224,6 @@ export {
   comprobarToken,
   nuevoPassword,
   obtenerTrabajadores,
-  actualizarTrabajador
+  actualizarTrabajador,
+  registrarTrabajador,
 };
