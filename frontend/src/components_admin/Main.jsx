@@ -58,7 +58,7 @@ const Main = () => {
         )}
         {activePath === "/admin-dashboard/pacientes" ? <Pacientes /> : ""}
         {activePath === "/admin-dashboard/agregar-pacientes" ? (
-          <AddPacientes />
+          <AddPacientes trabajadores={trabajadores} id_admin={info.veterinario._id} />
         ) : (
           ""
         )}

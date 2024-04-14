@@ -8,11 +8,12 @@ const pacienteSchema = mongoose.Schema({
   fecha : { type: Date,required: true, default: Date.now()},
   sintomas: { type: String, required: true },
   estado: {type: Boolean, default: true},
-  tamaño:{type:String, required: true},
+  tamano:{type:String, required: true},
   //Para saber quien es el veterinario que atiende a este paciente
   veterinario: {type:mongoose.Schema.Types.ObjectId, 
     //Referencia al modelo de veterinario
-    ref:'Veterinario'}
+    ref:'Veterinario'},
+  auxiliar: {type:mongoose.Schema.Types.ObjectId,ref:"Veterinario"}
 }, {
     //Agrega la fecha de creación y modificación
     timestamps: true,

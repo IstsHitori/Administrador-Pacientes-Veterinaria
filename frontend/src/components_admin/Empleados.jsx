@@ -19,7 +19,6 @@ const Empleados = ({ info, trabajadores }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const token = localStorage.getItem("token");
-    console.log("token:", token);
     if (!token) return;
     const config = {
       headers: {
