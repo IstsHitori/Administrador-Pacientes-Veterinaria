@@ -194,6 +194,13 @@ const perfil = async (req, res) => {
   });
 };
 
+const obtenerTrabajador = async(req,res) => {
+  const {id} = req.params;
+
+  const veterinario = await Veterinario.findById(id).select("-password");
+  return res.json({veterinario});  
+}
+
 //Registrar el trabajador
 const registrarTrabajador = async (req, res) => {
   const { email, rol } = req.body;
@@ -226,4 +233,5 @@ export {
   obtenerTrabajadores,
   actualizarTrabajador,
   registrarTrabajador,
+  obtenerTrabajador
 };

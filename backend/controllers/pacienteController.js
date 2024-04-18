@@ -1,4 +1,6 @@
+import mongoose from "mongoose";
 import Paciente from "../models/Paciente.js";
+import Roles from "../models/Roles.js";
 
 //Para agregar un paciente
 const agregarPaciente = async (req, res) => {
@@ -16,6 +18,14 @@ const agregarPaciente = async (req, res) => {
 
 const obtenerPacientes = async (req, res) => {
   //me trae todos los pacientes que estén asociados al veterinario que está logueado
+  const rolBuscar = req.veterinario.rol;
+  const rol = await Roles.findById(rolBuscar);
+
+  //Si es admin
+  if (rol.nombre === "ADMIN_ROL") {
+    const pacientes = await Paciente.find();
+    return res.json(pacientes);
+  }
   const pacientes = await Paciente.find()
     .where("veterinario")
     .equals(req.veterinario);
@@ -25,17 +35,12 @@ const obtenerPacientes = async (req, res) => {
 
 const obtenerPaciente = async (req, res) => {
   const { id } = req.params;
+  
   try {
-    const paciente = await Paciente.findById(id);
+    const paciente = await Paciente.find().where("docPropietario").equals(id);
     if (!paciente) {
       const error = new Error("Paciente no encontrado");
       return res.status(404).json({ msg: error.message });
-    }
-    if (
-      paciente.veterinario._id.toString() !== req.veterinario._id.toString()
-    ) {
-      const error = new Error("No tienes permiso para ver este paciente");
-      return res.json({ msg: error.message });
     }
     res.json(paciente);
     req.paciente = paciente;

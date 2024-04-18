@@ -36,7 +36,7 @@ const Main = () => {
   console.log(trabajadores);
 
   return (
-    <main className="p-3 flex items-center md:w-full pt-[5rem]">
+    <main className="p-3 flex items-center md:w-full pt-[2rem]">
       <section className="bg-gradient-to-t from-black  h-full to-gray-900 rounded-xl md:w-full p-5 py-7">
         {activePath === "/admin-dashboard" ? (
           <Dashboard
@@ -56,7 +56,7 @@ const Main = () => {
         ) : (
           ""
         )}
-        {activePath === "/admin-dashboard/pacientes" ? <Pacientes /> : ""}
+        {activePath === "/admin-dashboard/pacientes" ? <Pacientes pacientes={auth.pacientes} /> : ""}
         {activePath === "/admin-dashboard/agregar-pacientes" ? (
           <AddPacientes trabajadores={trabajadores} id_admin={info.veterinario._id} />
         ) : (

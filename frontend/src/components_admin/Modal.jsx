@@ -1,27 +1,34 @@
 /* eslint-disable react/prop-types */
 import { useState, useEffect } from "react";
-import Select from "./Select";
-import Alerta from "../components/Alerta";
 import clienteAxios from "../config/axios";
+import Alerta from "../components/Alerta";
+const Modal = ({ infoPaciente, setModal }) => {
+  //Funciones
+  const formarDate = (date) => {
+    return date.substring(0, 10);
+  };
+  //----
 
-const AddPacientes = ({ trabajadores, id_admin }) => {
-  const [nombre, setNombre] = useState("");
-  const [propietario, setPropietario] = useState("");
-  const [email, setEmail] = useState("");
-  const [fechaAlta, setFechaAlta] = useState("");
-  const [tamaño, setTamaño] = useState("");
-  const [docPropietario, setDocPropietario] = useState("");
+  //-----
+
+  //States
+  const [nombre, setNombre] = useState(infoPaciente.nombre);
+  const [propietario, setPropietario] = useState(infoPaciente.propietario);
+  const [email, setEmail] = useState(infoPaciente.email);
+  const [fechaAlta, setFechaAlta] = useState(formarDate(infoPaciente.fecha));
+  const [tamaño, setTamaño] = useState(infoPaciente.tamano);
+  const [docPropietario, setDocPropietario] = useState(
+    infoPaciente.docPropietario
+  );
   const [veterinario, setVeterinario] = useState("");
-  const [sintomas, setSintomas] = useState("");
-
+  const [sintomas, setSintomas] = useState(infoPaciente.sintomas);
+  const [estado, setEstado] = useState(infoPaciente.estado);
   const [alerta, setAlerta] = useState({});
-  console.log(id_admin);
-  useEffect(() => {
-    setTimeout(() =>{ 
-      setAlerta({});
-    },4000)
-  },[alerta.msg])
 
+  const ID_VETERINARIO = infoPaciente.veterinario;
+  //-----
+
+  //Eventos---
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (
@@ -34,12 +41,22 @@ const AddPacientes = ({ trabajadores, id_admin }) => {
         docPropietario,
         veterinario,
         sintomas,
+        estado,
       ].includes("")
     ) {
       setAlerta({ msg: "Hay campos vacíos", error: true });
       return;
     }
-    try {
+    setAlerta({ msg: "Datos actualizados correctamente", error: false });
+  };
+  const handleClick = () => {
+    setModal({ data: "", activo: false });
+  };
+  //----
+
+  //useEffect
+  useEffect(() => {
+    const cargarNombreVeterinario = async () => {
       const token = localStorage.getItem("token");
       if (!token) return;
       const config = {
@@ -48,35 +65,42 @@ const AddPacientes = ({ trabajadores, id_admin }) => {
           Authorization: `Bearer ${token}`,
         },
       };
-      const paciente = {nombre,propietario,docPropietario,email,fechaAlta,sintomas,tamano:tamaño, veterinario, auxiliar:id_admin}
 
-      const respuesta = await clienteAxios.post("/pacientes/",paciente,config);
-      setAlerta({ msg: "Paciente registrado correctamente", error: false });
-    } catch (error) {
-      setAlerta({ msg: error.response.data.msg, error: true });
-      return;
-    }
-  };
+      const respuesta = await clienteAxios.get(
+        `/veterinarios/obtener-trabajador/${ID_VETERINARIO}`,
+        config
+      );
+      setVeterinario(respuesta.data.veterinario.nombre);
+    };
+    cargarNombreVeterinario();
+  }, [ID_VETERINARIO]);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setAlerta({});
+    },4000);
+  },[alerta.msg])
+
+  //----
+
   return (
-    <div>
-      <div className="text-center md:text-left md:px-16">
-        <h2 className="text-gray-300">Registra tus pacientes</h2>
-        <p className="text-zinc-500 text-[12px]">
-          Registra los pacientes de tu veterinaria
-        </p>
-      </div>
-      <section className="mt-8 bg-gray-950 p-3 rounded-lg">
-        {alerta.msg && <Alerta alerta={alerta} />}
+    <article className="absolute  min-h-[400px] z-10 max-w-[500px] left-[25%]">
+      {alerta.msg && <Alerta alerta={alerta} />}
+
+      <div className="bg-zinc-950 rounded-lg p-4">
+        <h4 className="text-sm text-white text-center mb-2">
+          Información completa del paciente
+        </h4>
+        <hr />
         <form
-          className="grid md:grid-cols-3 gap-3 mt-2"
-          action=""
+          className="grid md:grid-cols-2 gap-4 mt-2"
           onSubmit={handleSubmit}
         >
           <div className="py-2 px-5 bg-gray-800 flex items-center justify-between rounded-lg">
             <div>
               <p className="text-[10px] text-gray-500">Nombre del paciente</p>
               <input
-                className="outline-none bg-transparent text-[11.5px] text-white md:w-[20rem]"
+                className="ooutline-none bg-transparent text-[11.5px] text-white md:w-[10rem]"
                 type="text"
                 value={nombre}
                 onChange={(e) => {
@@ -91,9 +115,11 @@ const AddPacientes = ({ trabajadores, id_admin }) => {
 
           <div className="py-2 px-5 bg-gray-800 flex items-center justify-between rounded-lg">
             <div>
-              <p className="text-[10px] text-gray-500">Nombre del propietario</p>
+              <p className="text-[10px] text-gray-500">
+                Nombre del propietario
+              </p>
               <input
-                className="outline-none bg-transparent text-[11.5px] text-white md:w-[20rem]"
+                className="outline-none bg-transparent text-[11.5px] text-white md:w-[10rem]"
                 type="text"
                 value={propietario}
                 onChange={(e) => {
@@ -110,7 +136,7 @@ const AddPacientes = ({ trabajadores, id_admin }) => {
             <div>
               <p className="text-[10px] text-gray-500">Correo</p>
               <input
-                className="outline-none bg-transparent text-[11.5px] text-white md:w-[20rem]"
+                className="outline-none bg-transparent text-[11.5px] text-white md:w-[10rem]"
                 type="email"
                 value={email}
                 onChange={(e) => {
@@ -127,7 +153,7 @@ const AddPacientes = ({ trabajadores, id_admin }) => {
             <div>
               <p className="text-[10px] text-gray-500">Fecha de alta</p>
               <input
-                className="outline-none bg-transparent text-[11.5px] text-white"
+                className="outline-none bg-transparent text-[11.5px] text-white md:w-[10rem]"
                 type="date"
                 value={fechaAlta}
                 onChange={(e) => {
@@ -139,12 +165,42 @@ const AddPacientes = ({ trabajadores, id_admin }) => {
               <ion-icon name="calendar-number-outline"></ion-icon>{" "}
             </span>
           </div>
+          <div className="py-2 px-5 bg-gray-800 flex items-center justify-between rounded-lg">
+            <div>
+              <p className="text-[10px] text-gray-500">Estado</p>
+              <select
+                onChange={(e) => {
+                  setEstado(e.target.value === "true");
+                }}
+                className={`outline-none bg-gray-800 text-[11.5px] ${
+                  estado ? "text-green-500" : "text-red-500"
+                } md:w-[10rem]`}
+              >
+                <option
+                  className={`${estado ? "text-green-500" : "text-red-500"}`}
+                  value={true}
+                >
+                  {estado.toString()}
+                </option>
+
+                <option
+                  className={`${!estado ? "text-green-500" : "text-red-500"}`}
+                  value={false}
+                >
+                  {(!estado).toString()}
+                </option>
+              </select>
+            </div>
+            <span className="flex items-center justify-center text-gray-400">
+              <ion-icon name="calendar-number-outline"></ion-icon>{" "}
+            </span>
+          </div>
 
           <div className="py-2 px-5 bg-gray-800 flex items-center justify-between rounded-lg">
             <div>
               <p className="text-[10px] text-gray-500">Tamaño</p>
               <input
-                className="outline-none bg-transparent text-[11.5px] text-white md:w-[20rem]"
+                className="outline-none bg-transparent text-[11.5px] text-white md:w-[10rem]"
                 type="text"
                 value={tamaño}
                 onChange={(e) => {
@@ -161,7 +217,7 @@ const AddPacientes = ({ trabajadores, id_admin }) => {
             <div>
               <p className="text-[10px] text-gray-500">Doc. Propietario</p>
               <input
-                className="outline-none bg-transparent text-[11.5px] text-white md:w-[20rem]"
+                className="outline-none bg-transparent text-[11.5px] text-white md:w-[10rem]outline-none  md:w-[10rem]"
                 type="number"
                 value={docPropietario}
                 onChange={(e) => {
@@ -177,10 +233,14 @@ const AddPacientes = ({ trabajadores, id_admin }) => {
           <div className="py-2 px-5 bg-gray-800 flex items-center justify-between rounded-lg">
             <div>
               <p className="text-[10px] text-gray-500">Veterinario</p>
-              <Select
-                setVeterinario={setVeterinario}
-                clase={"outline-none text-white text-sm bg-gray-800"}
-                data={trabajadores}
+              <input
+                className="outline-none bg-transparent text-[11.5px] text-yellow-400 md:w-[10rem]"
+                type="text"
+                disabled
+                value={veterinario}
+                onChange={(e) => {
+                  setVeterinario(e.target.value);
+                }}
               />
             </div>
             <span className="flex items-center justify-center text-gray-400">
@@ -192,7 +252,7 @@ const AddPacientes = ({ trabajadores, id_admin }) => {
             <div>
               <p className="text-[10px] text-gray-500">Síntomas</p>
               <textarea
-                className="outline-none bg-transparent text-[11.5px] text-white md:w-[20rem]"
+                className="outline-none bg-transparent text-[11.5px] text-white md:w-[10rem]"
                 cols="30"
                 rows="2"
                 value={sintomas}
@@ -205,16 +265,23 @@ const AddPacientes = ({ trabajadores, id_admin }) => {
               <ion-icon name="people-outline"></ion-icon>{" "}
             </span>
           </div>
-
           <input
-            className="py-1 inline-block px-5 text-white bg-blue-600 hover:bg-blue-700 text-sm rounded-lg font-normal transition-all hover:cursor-pointer"
+            className="text-white bg-blue-600 rounded-lg hover:cursor-pointer max-h-[70px] hover:bg-blue-700 mt-5"
             type="submit"
-            value="Registrar paciente"
+            value="Guardar"
           />
         </form>
-      </section>
-    </div>
+        <div className="flex items-center justify-center mt-5">
+          <button
+            className="text-white bg-red-700 px-8 py-2 text-sm rounded-lg hover:bg-red-800"
+            onClick={handleClick}
+          >
+            Cerrar
+          </button>
+        </div>
+      </div>
+    </article>
   );
 };
 
-export default AddPacientes;
+export default Modal;

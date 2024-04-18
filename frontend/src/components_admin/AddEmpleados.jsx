@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import clienteAxios from "../config/axios";
 import Alerta from "../components/Alerta";
 
@@ -11,6 +11,11 @@ const AddEmpleados = () => {
   const [rol, setRol] = useState("AUXILIAR_ROL");
   const [alerta, setAlerta] = useState({});
 
+  useEffect(() =>{
+    setTimeout(()=> {
+      setAlerta({});
+    },4000)
+  },[alerta.msg])
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (
@@ -49,15 +54,12 @@ const AddEmpleados = () => {
         config
       );
       setAlerta({ msg: respuesta.data.msg, error: false });
-      setTimeout(() => {
-        setAlerta({})
-      },2000)
+ 
     } catch (error) {
       setAlerta({ msg: error.response.data.msg, error: true });
       return;
     }
   };
-  const { error } = alerta;
   return (
     <div>
       <div className="text-center md:text-left md:px-16">
@@ -68,7 +70,7 @@ const AddEmpleados = () => {
       </div>
       <section className="mt-10 md:max-w-[800px]">
 
-        { error ? <Alerta alerta={alerta} /> : <Alerta alerta={alerta} />}
+        { alerta.msg && <Alerta alerta={alerta} />}
         <form
           className="flex mt-2 flex-col gap-4 md:grid md:grid-cols-2 md:content-center md:justify-center"
           action=""

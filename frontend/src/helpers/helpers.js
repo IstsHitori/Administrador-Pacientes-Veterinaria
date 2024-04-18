@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/rules-of-hooks */
+import { useEffect } from "react";
 
 const ROLES = Object.freeze({
     ADMIN_ROL :"ADMIN_ROL",
@@ -17,7 +19,6 @@ const Trabajadores = (data) => {
         }
     }
 }
-
 export{
     ROLES,Trabajadores
 }

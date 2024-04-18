@@ -4,8 +4,9 @@ import Tr from "./Tr";
 import Th from "./Th";
 import clienteAxios from "../config/axios";
 import useAuth from "../hooks/useAuth";
+import Alerta from "../components/Alerta";
 
-import { useState } from "react";
+import { useState,useEffect } from "react";
 
 const Empleados = ({ info, trabajadores }) => {
   const { AUXILIARES } = trabajadores;
@@ -14,8 +15,15 @@ const Empleados = ({ info, trabajadores }) => {
     VETERINARIOS.veterinarios
   );
   const { auth } = useAuth();
-
+  const [alerta,setAlerta] = useState({});
   const [empleados, setEmpleados] = useState(array_trabajadores);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setAlerta({});
+    },4000)
+  },[alerta.msg])
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const token = localStorage.getItem("token");
@@ -33,6 +41,7 @@ const Empleados = ({ info, trabajadores }) => {
           config
         );
       });
+      setAlerta({msg:"Cambios realizados",error:false});
     } catch (error) {
       console.log(error);
     }
@@ -49,6 +58,7 @@ const Empleados = ({ info, trabajadores }) => {
   return (
     <>
       <div className="text-center md:text-left md:px-16">
+
         <h2 className="text-gray-300">
           Bienvenido de vuelta,
           <span className="font-bold"> {info.veterinario.nombre}!!</span>
@@ -57,7 +67,9 @@ const Empleados = ({ info, trabajadores }) => {
           Tu Admin Dashboard, vuelve y explora la información de tu veterinaria
         </p>
       </div>
-      <article className="mt-1 ">
+      <article className="mt-1">
+      {alerta.msg && <Alerta alerta={alerta} />}
+        
         <form
           onSubmit={handleSubmit}
           className="h-[10rem] md:w-full "

@@ -5,6 +5,7 @@ const Select = ({ clase, data, setVeterinario }) => {
   const veterinarios = VETERINARIOS.veterinarios;
   return (
     <select onChange={e => {setVeterinario(e.target.value)}} className={clase}>
+      <option defaultChecked value={""}>Elija el veterinario</option>
       {veterinarios.map((veterinario) => {
         if (veterinario.confirmado === true && veterinario.estado === true) {
           return (
