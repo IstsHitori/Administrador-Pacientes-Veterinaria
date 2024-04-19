@@ -1,6 +1,5 @@
-import clienteAxios from "../config/axios";
 import useAuth from "../hooks/useAuth";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import CardHistoria from "./CardHistoria";
 const AddHistorias = () => {
   //States

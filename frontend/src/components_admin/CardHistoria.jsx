@@ -4,7 +4,7 @@ import ModalAddHistoria from "./ModalAddHistoria";
 const CardHistoria = ({ clase, paciente }) => {
   const { article, img, h4, h4_p, ModalClases } = clase;
   //Paciente
-  const { nombre, docPropietario, propietario, estado } = paciente;
+  const { nombre, docPropietario, estado } = paciente;
   //---
 
   //States
