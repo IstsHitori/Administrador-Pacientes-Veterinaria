@@ -37,7 +37,7 @@ const Main = () => {
 
   return (
     <main className="p-3 flex items-center md:w-full pt-[2rem]">
-      <section className="bg-gradient-to-t from-black  h-full to-gray-900 rounded-xl md:w-full p-5 py-7">
+      <section className="bg-gradient-to-t from-black  to-gray-900 rounded-xl md:w-full p-5 py-7">
         {activePath === "/admin-dashboard" ? (
           <Dashboard
             info={info}

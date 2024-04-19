@@ -35,7 +35,7 @@ const [modal,setModal] = useState({});
   };
   const { error } = alerta;
   return (
-    <div>
+    <div className="">
       <div className="text-center md:text-left md:px-16">
         <h2 className="text-gray-300">Tus pacientes</h2>
         <p className="text-zinc-500 text-[12px]">
@@ -68,7 +68,7 @@ const [modal,setModal] = useState({});
           </form>
         </div>
         <hr />
-        <div className="relative grid grid-cols-1 gap-3 max-h-[650px] md:max-h-[400px] overflow-y-auto mt-2 p-2 md:grid-cols-3">
+        <div className="relative grid grid-cols-1 gap-3 md:max-h-[400px] max-h-[660px]  overflow-y-auto mt-2 p-2 md:grid-cols-3">
           {modal.data && <Modal infoPaciente={modal.data} setModal={setModal} /> }
           {PACIENTES.length < 1 ? <h3 className="p-5 bg-red-800 rounded-md w-full text-center text-white">No hay pacientes para mostrar</h3> : PACIENTES.map((paciente) => {
             return <Card key={paciente._id} info={paciente} setModal={setModal} />;

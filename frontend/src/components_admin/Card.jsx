@@ -9,7 +9,7 @@ const Card = ({ info, setModal }) => {
   }
   return (
     <article className="flex flex-col gap-5 p-4 bg-gradient-to-t from-zinc-950 to-black rounded-xl cursor-pointer transition-all hover:scale-105">
-      <div className="rounded-[50%] w-14 h-14 flex items-center justify-center text-lg text-zinc-950 bg-blue-500 font-bold">
+      <div className={`rounded-[50%] w-14 h-14 flex items-center justify-center text-lg text-zinc-950 ${info.estado ? "bg-blue-500" : "bg-red-500"} font-bold`}>
         {nombre[0] + nombre[1]}
       </div>
       <p className="text-blue-400 text-sm">

@@ -5,6 +5,7 @@ const AuthContext = createContext();
 // eslint-disable-next-line react/prop-types
 const AuthProvider = ({children}) =>{
     const [cargando,setCargando] = useState(true);
+    const [modoOscuro,setModoOscuro] = useState(true);
     const [auth,setAuth] = useState({});
     useEffect(() =>{
         const autenticarUsuario = async() => {
@@ -52,7 +53,8 @@ const AuthProvider = ({children}) =>{
             value={{
                 auth,
                 setAuth,
-                cargando,cerrarSesion
+                cargando,cerrarSesion,
+                modoOscuro,setModoOscuro
             }}
         >
             {/*Aquí estarán todos los componentes dentro del AuthProvider de App.jsx */}

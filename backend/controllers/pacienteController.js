@@ -5,7 +5,10 @@ import Roles from "../models/Roles.js";
 //Para agregar un paciente
 const agregarPaciente = async (req, res) => {
   //Obtenemos los datos del paciente en el formulario
+  const {docPaciente,nombre} = req.body;
   const paciente = new Paciente(req.body);
+  const exixstePaciente = await Paciente.find({docPaciente,nombre});
+  if(exixstePaciente.length > 0) return res.status(404).json({msg:"Este paciente ya está registrado"});
   //Agregamos el veterinario que atiende a este paciente
   paciente.auxiliar = req.veterinario._id;
   try {
@@ -56,17 +59,17 @@ const actualizarPaciente = async (req, res) => {
     const error = new Error("Paciente no encontrado");
     return res.status(404).json({ msg: error.message });
   }
-  if (paciente.veterinario._id.toString() !== req.veterinario._id.toString()) {
+  if (paciente.auxiliar._id.toString() !== req.veterinario._id.toString()) {
     const error = new Error("No tienes permiso para editar este paciente");
     return res.json({ msg: error.message });
   }
-
   //Actualizamos el paciente
   paciente.nombre = req.body.nombre || paciente.nombre;
   paciente.propietario = req.body.propietario || paciente.propietario;
   paciente.email = req.body.email || paciente.email;
   paciente.fecha = req.body.fecha || paciente.fecha;
   paciente.sintomas = req.body.sintomas || paciente.sintomas;
+  paciente.estado = req.body.estado;
 
   try {
     const pacienteActualizado = await paciente.save();

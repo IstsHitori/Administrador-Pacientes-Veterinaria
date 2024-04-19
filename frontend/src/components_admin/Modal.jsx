@@ -26,9 +26,10 @@ const Modal = ({ infoPaciente, setModal }) => {
   const [alerta, setAlerta] = useState({});
 
   const ID_VETERINARIO = infoPaciente.veterinario;
+  const { _id, auxiliar } = infoPaciente;
   //-----
-
   //Eventos---
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (
@@ -47,6 +48,34 @@ const Modal = ({ infoPaciente, setModal }) => {
       setAlerta({ msg: "Hay campos vacíos", error: true });
       return;
     }
+    const token = localStorage.getItem("token");
+    if (!token) return;
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    console.log(estado)
+    const pacienteActualizado = {
+      _id,
+      auxiliar,
+      docPropietario,
+      email,
+      estado,
+      fechaAlta,
+      nombre,
+      propietario,
+      sintomas,
+      tamano: tamaño,
+      veterinario,
+    };
+    const respuesta = await clienteAxios.put(
+      `/pacientes/${_id}`,
+      pacienteActualizado,
+      config
+    );
+    console.log(respuesta);
     setAlerta({ msg: "Datos actualizados correctamente", error: false });
   };
   const handleClick = () => {
@@ -59,13 +88,13 @@ const Modal = ({ infoPaciente, setModal }) => {
     const cargarNombreVeterinario = async () => {
       const token = localStorage.getItem("token");
       if (!token) return;
+
       const config = {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
       };
-
       const respuesta = await clienteAxios.get(
         `/veterinarios/obtener-trabajador/${ID_VETERINARIO}`,
         config
@@ -78,8 +107,8 @@ const Modal = ({ infoPaciente, setModal }) => {
   useEffect(() => {
     setTimeout(() => {
       setAlerta({});
-    },4000);
-  },[alerta.msg])
+    }, 4000);
+  }, [alerta.msg]);
 
   //----
 
@@ -180,14 +209,14 @@ const Modal = ({ infoPaciente, setModal }) => {
                   className={`${estado ? "text-green-500" : "text-red-500"}`}
                   value={true}
                 >
-                  {estado.toString()}
+                  {"true"}
                 </option>
 
                 <option
                   className={`${!estado ? "text-green-500" : "text-red-500"}`}
                   value={false}
                 >
-                  {(!estado).toString()}
+                  {"false"}
                 </option>
               </select>
             </div>

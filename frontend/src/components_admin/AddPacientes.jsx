@@ -15,7 +15,6 @@ const AddPacientes = ({ trabajadores, id_admin }) => {
   const [sintomas, setSintomas] = useState("");
 
   const [alerta, setAlerta] = useState({});
-  console.log(id_admin);
   useEffect(() => {
     setTimeout(() =>{ 
       setAlerta({});
