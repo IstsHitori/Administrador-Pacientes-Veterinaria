@@ -46,7 +46,7 @@ const AddHistorias = () => {
         </p>
       </div>
       <div>
-        <section className="relative md:mt-6 bg-gray-900 md:px-3 rounded-lg overflow-y-auto max-h-[660px] md:max-h-[400px]">
+        <section className="relative md:mt-2 bg-gray-900 md:px-3 rounded-lg overflow-y-auto max-h-[660px] md:max-h-[400px]">
           <div className="mb-2">
             <form
               onSubmit={handleSubmit}

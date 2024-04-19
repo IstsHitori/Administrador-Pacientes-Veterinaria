@@ -1,5 +1,7 @@
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import useAuth from "../hooks/useAuth";
+import clienteAxios from "../config/axios";
+import Alerta from "../components/Alerta";
 /* eslint-disable react/prop-types */
 
 // eslint-disable-next-line react/prop-types, no-unused-vars
@@ -10,21 +12,63 @@ const ModalAddHistoria = ({ clase, paciente }) => {
 
   //Variables
   const { auth } = useAuth();
-  console.log(auth);
   //---
   //States
   const [historia, setHistoria] = useState("");
+  const [alerta, setAlerta] = useState({});
   //----
 
+    //UseEffect
+    useEffect(() => {
+        setTimeout(()=>{
+            setAlerta({});
+        },4000)
+    },[alerta.msg])
+
+  //Funciones
+  const handleSubmitHistoria = async (e) => {
+    e.preventDefault();
+    if (historia.length < 1) {
+      setAlerta({ msg: "La historia no puede estar vacía", error: true });
+      return;
+    }
+
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        setAlerta({ msg: "Hubo un error", error: true });
+        return;
+      }
+
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      };
+      const respuesta = await clienteAxios.post(`/historias/${paciente._id}`,{historia},config);
+      if(respuesta.statusText === "OK"){
+        setAlerta({msg:"Historia registrada correctamente",error:false});
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  //---
   const { backGround, h1 } = clase;
   return (
     <div className={`${backGround} transition-all rounded-lg p-2 mt-4`}>
+        {alerta.msg && <Alerta alerta={alerta}/>}
       <h1 className={`${h1} text-sm text-center`}>
         {`Registra una nueva historia clínica para  ${paciente.nombre}`}
       </h1>
       <hr className="block mt-3" />
 
-      <form className="mt-2 grid grid-cols-2 gap-2" action="">
+      <form
+        onSubmit={handleSubmitHistoria}
+        className="mt-2 grid grid-cols-2 gap-2"
+        action=""
+      >
         <div className="py-2 px-5 bg-gray-800 flex items-center justify-between rounded-lg">
           <div>
             <p className="text-[10px] text-gray-500">Nombre</p>
@@ -77,9 +121,12 @@ const ModalAddHistoria = ({ clase, paciente }) => {
           <div>
             <p className="text-[10px] text-gray-500">Historia</p>
             <textarea
-              className="outline-none bg-transparent md:w-[950px] text-[11.5px] text-white"
+              className="outline-none bg-transparent w-[300px] md:w-[950px] text-[11.5px] text-white"
               cols="20"
               rows="8"
+              onChange={(e) => {
+                setHistoria(e.target.value);
+              }}
             ></textarea>
           </div>
         </div>

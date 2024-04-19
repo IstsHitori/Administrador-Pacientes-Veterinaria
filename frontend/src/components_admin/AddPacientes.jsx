@@ -64,7 +64,7 @@ const AddPacientes = ({ trabajadores, id_admin }) => {
           Registra los pacientes de tu veterinaria
         </p>
       </div>
-      <section className="mt-8 bg-gray-950 p-3 rounded-lg">
+      <section className="mt-9 bg-gray-950 p-3 rounded-lg">
         {alerta.msg && <Alerta alerta={alerta} />}
         <form
           className="grid md:grid-cols-3 gap-3 mt-2"
