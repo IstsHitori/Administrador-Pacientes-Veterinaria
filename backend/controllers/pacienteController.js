@@ -38,7 +38,6 @@ const obtenerPacientes = async (req, res) => {
 
 const obtenerPaciente = async (req, res) => {
   const { id } = req.params;
-  
   try {
     const paciente = await Paciente.find().where("docPropietario").equals(id);
     if (!paciente) {

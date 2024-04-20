@@ -1,11 +1,14 @@
 import useAuth from "../hooks/useAuth";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import CardHistoria from "./CardHistoria";
+import clienteAxios from "../config/axios";
+import Alerta from "../components/Alerta";
 const AddHistorias = () => {
   //States
-  const [docPaciente, setDocPaciente] = useState("");
+  const [docPropietario, setDocPropietario] = useState("");
   const { modoOscuro, auth } = useAuth();
-  const { pacientes } = auth;
+  const [pacientes, setPacientes] = useState(auth.pacientes);
+  const [alerta, setAlerta] = useState({});
   //---
 
   //Variables
@@ -15,27 +18,69 @@ const AddHistorias = () => {
       img: "bg-zinc-800",
       h4: "tex-white",
       h4_p: "text-gray-400",
-      ModalClases:{
+      ModalClases: {
         backGround: "bg-gray-900",
-        h1:"text-gray-100"
-      }
+        h1: "text-gray-100",
+      },
     },
     MODO_CLARO: {
       article: "bg-white text-white",
       img: "bg-zinc-800",
       h4: "tex-white",
       h4_p: "text-gray-400",
-      ModalClases:{
-        backGround: "bg-gray-200"
-      }
+      ModalClases: {
+        backGround: "bg-gray-200",
+      },
     },
   });
   //---
 
   //Funciones
+  const getIdPaciente = (documento) => {
+    return pacientes.filter(
+      (paciente) => paciente.docPropietario.toString() === documento
+    );
+  };
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) return;
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      };
+      if ([docPropietario].includes("")) {
+        setPacientes(pacientes);
+        return;
+      }
+      const respuesta = await clienteAxios(
+        `/pacientes/${docPropietario}`,
+        config
+      );
+      if (respuesta.data.length < 1) {
+        setAlerta({ msg: "No se encontró el paciente", error: true });
+        return;
+      }
+      console.log(respuesta);
+      if (respuesta.statusText === "OK") {
+        setPacientes(respuesta.data);
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
+  //---
+
+  //useEffect
+  useEffect(() => {
+    setTimeout(() => {
+      setAlerta({});
+    }, 4000);
+  }, [alerta.msg]);
   //---
   return (
     <div>
@@ -57,9 +102,9 @@ const AddHistorias = () => {
                 className="p-[10px] outline-none bg-zinc-900 rounded-lg text-white text-sm"
                 type="number"
                 min={0}
-                value={docPaciente}
+                value={docPropietario}
                 onChange={(e) => {
-                  setDocPaciente(e.target.value);
+                  setDocPropietario(e.target.value);
                 }}
                 placeholder="Doc.Propietario"
               />
@@ -73,12 +118,17 @@ const AddHistorias = () => {
           </div>
           <hr className="mt-3" />
           <div className="p-2">
+            {alerta.msg && <Alerta alerta={alerta} />}
             {pacientes.map((paciente) => {
               return (
                 <CardHistoria
                   key={paciente._id}
                   paciente={paciente}
-                  clase={modoOscuro ? PALETA_COLORES.MODO_OSCURO : PALETA_COLORES.MODO_CLARO}
+                  clase={
+                    modoOscuro
+                      ? PALETA_COLORES.MODO_OSCURO
+                      : PALETA_COLORES.MODO_CLARO
+                  }
                 />
               );
             })}

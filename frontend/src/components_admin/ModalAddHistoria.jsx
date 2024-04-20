@@ -123,7 +123,7 @@ const ModalAddHistoria = ({ clase, paciente }) => {
             <textarea
               className="outline-none bg-transparent w-[300px] md:w-[950px] text-[11.5px] text-white"
               cols="20"
-              rows="8"
+              rows="5"
               onChange={(e) => {
                 setHistoria(e.target.value);
               }}

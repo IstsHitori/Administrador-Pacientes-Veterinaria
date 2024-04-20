@@ -6,7 +6,6 @@ const CardHistoria = ({ clase, paciente }) => {
   //Paciente
   const { nombre, docPropietario, estado } = paciente;
   //---
-
   //States
   const [modalActivo, setModalActivo] = useState(false);
   //---

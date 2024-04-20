@@ -14,12 +14,16 @@ const AddPacientes = ({ trabajadores, id_admin }) => {
   const [veterinario, setVeterinario] = useState("");
   const [sintomas, setSintomas] = useState("");
 
+  //Variables
+  const divClase =
+    "py-2 px-5 bg-gray-800 flex items-center justify-between rounded-lg";
+  //-----
   const [alerta, setAlerta] = useState({});
   useEffect(() => {
-    setTimeout(() =>{ 
+    setTimeout(() => {
       setAlerta({});
-    },4000)
-  },[alerta.msg])
+    }, 4000);
+  }, [alerta.msg]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -47,9 +51,23 @@ const AddPacientes = ({ trabajadores, id_admin }) => {
           Authorization: `Bearer ${token}`,
         },
       };
-      const paciente = {nombre,propietario,docPropietario,email,fechaAlta,sintomas,tamano:tamaño, veterinario, auxiliar:id_admin}
+      const paciente = {
+        nombre,
+        propietario,
+        docPropietario,
+        email,
+        fechaAlta,
+        sintomas,
+        tamano: tamaño,
+        veterinario,
+        auxiliar: id_admin,
+      };
 
-      const respuesta = await clienteAxios.post("/pacientes/",paciente,config);
+      const respuesta = await clienteAxios.post(
+        "/pacientes/",
+        paciente,
+        config
+      );
       setAlerta({ msg: "Paciente registrado correctamente", error: false });
     } catch (error) {
       setAlerta({ msg: error.response.data.msg, error: true });
@@ -71,11 +89,11 @@ const AddPacientes = ({ trabajadores, id_admin }) => {
           action=""
           onSubmit={handleSubmit}
         >
-          <div className="py-2 px-5 bg-gray-800 flex items-center justify-between rounded-lg">
+          <div className={divClase}>
             <div>
               <p className="text-[10px] text-gray-500">Nombre del paciente</p>
               <input
-                className="outline-none bg-transparent text-[11.5px] text-white md:w-[20rem]"
+                className="outline-none bg-transparent text-[11.5px] text-white md:w-[5rem]"
                 type="text"
                 value={nombre}
                 onChange={(e) => {
@@ -88,11 +106,13 @@ const AddPacientes = ({ trabajadores, id_admin }) => {
             </span>
           </div>
 
-          <div className="py-2 px-5 bg-gray-800 flex items-center justify-between rounded-lg">
+          <div className={divClase}>
             <div>
-              <p className="text-[10px] text-gray-500">Nombre del propietario</p>
+              <p className="text-[10px] text-gray-500">
+                Nombre del propietario
+              </p>
               <input
-                className="outline-none bg-transparent text-[11.5px] text-white md:w-[20rem]"
+                className="outline-none bg-transparent text-[11.5px] text-white md:w-[5rem]"
                 type="text"
                 value={propietario}
                 onChange={(e) => {
@@ -105,11 +125,11 @@ const AddPacientes = ({ trabajadores, id_admin }) => {
             </span>
           </div>
 
-          <div className="py-2 px-5 bg-gray-800 flex items-center justify-between rounded-lg">
+          <div className={divClase}>
             <div>
               <p className="text-[10px] text-gray-500">Correo</p>
               <input
-                className="outline-none bg-transparent text-[11.5px] text-white md:w-[20rem]"
+                className="outline-none bg-transparent text-[11.5px] text-white md:w-[5rem]"
                 type="email"
                 value={email}
                 onChange={(e) => {
@@ -122,7 +142,7 @@ const AddPacientes = ({ trabajadores, id_admin }) => {
             </span>
           </div>
 
-          <div className="py-2 px-5 bg-gray-800 flex items-center justify-between rounded-lg">
+          <div className={divClase}>
             <div>
               <p className="text-[10px] text-gray-500">Fecha de alta</p>
               <input
@@ -139,11 +159,11 @@ const AddPacientes = ({ trabajadores, id_admin }) => {
             </span>
           </div>
 
-          <div className="py-2 px-5 bg-gray-800 flex items-center justify-between rounded-lg">
+          <div className={divClase}>
             <div>
               <p className="text-[10px] text-gray-500">Tamaño</p>
               <input
-                className="outline-none bg-transparent text-[11.5px] text-white md:w-[20rem]"
+                className="outline-none bg-transparent text-[11.5px] text-white md:w-[5rem]"
                 type="text"
                 value={tamaño}
                 onChange={(e) => {
@@ -156,11 +176,11 @@ const AddPacientes = ({ trabajadores, id_admin }) => {
             </span>
           </div>
 
-          <div className="py-2 px-5 bg-gray-800 flex items-center justify-between rounded-lg">
+          <div className={divClase}>
             <div>
               <p className="text-[10px] text-gray-500">Doc. Propietario</p>
               <input
-                className="outline-none bg-transparent text-[11.5px] text-white md:w-[20rem]"
+                className="outline-none bg-transparent text-[11.5px] text-white md:w-[5rem]"
                 type="number"
                 value={docPropietario}
                 onChange={(e) => {
@@ -173,7 +193,7 @@ const AddPacientes = ({ trabajadores, id_admin }) => {
             </span>
           </div>
 
-          <div className="py-2 px-5 bg-gray-800 flex items-center justify-between rounded-lg">
+          <div className={divClase}>
             <div>
               <p className="text-[10px] text-gray-500">Veterinario</p>
               <Select
@@ -187,11 +207,11 @@ const AddPacientes = ({ trabajadores, id_admin }) => {
             </span>
           </div>
 
-          <div className="py-2 px-5 bg-gray-800 flex items-center justify-between rounded-lg">
+          <div className={divClase}>
             <div>
               <p className="text-[10px] text-gray-500">Síntomas</p>
               <textarea
-                className="outline-none bg-transparent text-[11.5px] text-white md:w-[20rem]"
+                className="outline-none bg-transparent text-[11.5px] text-white md:w-[14rem]"
                 cols="30"
                 rows="2"
                 value={sintomas}
