@@ -3,35 +3,26 @@ import { useState } from "react";
 import Card from "./Card";
 import Alerta from "../components/Alerta";
 import clienteAxios from "../config/axios";
+import usePacientes from "../hooks/usePacientes";
 import Modal from "./Modal";
 
 const Pacientes = ({ pacientes }) => {
-  const [docPaciente, setDocPaciente] = useState("");
-  const [PACIENTES,setPACIENTES] = useState(pacientes);
+  const [docPropietario, setDocPropietario] = useState("");
+  const [PACIENTES, setPACIENTES] = useState(pacientes);
   const [alerta, setAlerta] = useState({});
-const [modal,setModal] = useState({});
+  const [modal, setModal] = useState({});
+
+  //--Use
+  const { obtenerPaciente} = usePacientes();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    setAlerta({ msg: "", error: false });
-    try {
-      const token = localStorage.getItem("token");
-      if (!token) return;
-
-      const config = {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      };
-
-      const respuesta = await clienteAxios(`/pacientes/${docPaciente}`,config);
-      setPACIENTES(respuesta.data);
-    } catch (error) {
-      setAlerta({ msg: error.response.data.msg, error: true });
+    if([docPropietario].includes("")){
+      setPACIENTES(pacientes);
       return;
     }
+    const respuesta = await obtenerPaciente (docPropietario);
+    setPACIENTES(respuesta);
   };
   const { error } = alerta;
   return (
@@ -53,9 +44,9 @@ const [modal,setModal] = useState({});
             <input
               className="p-[10px] outline-none bg-zinc-900 rounded-lg text-white text-sm"
               type="number"
-              value={docPaciente}
+              value={docPropietario}
               onChange={(e) => {
-                setDocPaciente(e.target.value);
+                setDocPropietario(e.target.value);
               }}
               placeholder="Doc.Propietario"
             />
@@ -69,10 +60,20 @@ const [modal,setModal] = useState({});
         </div>
         <hr />
         <div className="relative grid grid-cols-1 gap-3 md:max-h-[400px] max-h-[660px]  overflow-y-auto mt-2 p-2 md:grid-cols-3">
-          {modal.data && <Modal infoPaciente={modal.data} setModal={setModal} /> }
-          {PACIENTES.length < 1 ? <h3 className="p-5 bg-red-800 rounded-md w-full text-center text-white">No hay pacientes para mostrar</h3> : PACIENTES.map((paciente) => {
-            return <Card key={paciente._id} info={paciente} setModal={setModal} />;
-          })}
+          {modal.data && (
+            <Modal infoPaciente={modal.data} setModal={setModal} />
+          )}
+          {PACIENTES.length < 1 ? (
+            <h3 className="p-5 bg-red-800 rounded-md w-full text-center text-white">
+              No hay pacientes para mostrar
+            </h3>
+          ) : (
+            PACIENTES.map((paciente) => {
+              return (
+                <Card key={paciente._id} info={paciente} setModal={setModal} />
+              );
+            })
+          )}
         </div>
       </section>
     </div>

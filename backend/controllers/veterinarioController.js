@@ -163,8 +163,6 @@ const actualizarTrabajador = async (req, res) => {
     if (!EMPLEADO) {
       res.json({ msg: `No se encontró el empleado` });
     }
-    console.log("EMPLEADO ORIGINAL:", EMPLEADO);
-    console.log("EMPLEADO CAMBIAR:", req.body);
     EMPLEADO.estado = req.body.estado;
     const empledadoActualizado = await EMPLEADO.save();
   } catch (error) {

@@ -67,16 +67,37 @@ export const PacientesProvider = ({ children }) => {
           config
         );
         if (respuesta.statusText === "OK") {
-            setPacientes(respuesta.data);
-          }
+          return respuesta.data;
+        }
     }catch(error) {console.log(error);}
+  }
+
+  const actualizarPaciente = async(pacienteActualizado) => {
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) return;
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      };
+      await clienteAxios.put(
+        `/pacientes/${pacienteActualizado._id}`,
+        pacienteActualizado,
+        config
+      );
+    } catch (error) {
+      console.log(error);
+    }
   }
   return (
     <PacientesContext.Provider
       value={{
         pacientes,
         guardarPaciente,
-        obtenerPaciente
+        obtenerPaciente,
+        actualizarPaciente
       }}
     >
       {children}

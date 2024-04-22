@@ -2,12 +2,17 @@
 import { useState, useEffect } from "react";
 import clienteAxios from "../config/axios";
 import Alerta from "../components/Alerta";
+import usePacientes from "../hooks/usePacientes";
 const Modal = ({ infoPaciente, setModal }) => {
   //Funciones
   const formarDate = (date) => {
     return date.substring(0, 10);
   };
   //----
+
+  //--Use
+  const { actualizarPaciente } = usePacientes();
+  //---
 
   //-----
 
@@ -48,15 +53,7 @@ const Modal = ({ infoPaciente, setModal }) => {
       setAlerta({ msg: "Hay campos vacíos", error: true });
       return;
     }
-    const token = localStorage.getItem("token");
-    if (!token) return;
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    };
-    console.log(estado)
+
     const pacienteActualizado = {
       _id,
       auxiliar,
@@ -70,13 +67,12 @@ const Modal = ({ infoPaciente, setModal }) => {
       tamano: tamaño,
       veterinario,
     };
-    const respuesta = await clienteAxios.put(
-      `/pacientes/${_id}`,
-      pacienteActualizado,
-      config
-    );
-    console.log(respuesta);
-    setAlerta({ msg: "Datos actualizados correctamente", error: false });
+    try {
+      await actualizarPaciente(pacienteActualizado);
+      setAlerta({ msg: "Datos actualizados correctamente", error: false });
+    } catch (error) {
+      console.log(error);
+    }
   };
   const handleClick = () => {
     setModal({ data: "", activo: false });

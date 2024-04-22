@@ -2,13 +2,15 @@
 /* eslint-disable react/prop-types */
 import Tr from "./Tr";
 import Th from "./Th";
-import clienteAxios from "../config/axios";
-import useAuth from "../hooks/useAuth";
-import Alerta from "../components/Alerta";
 
+import Alerta from "../components/Alerta";
 import { useState, useEffect } from "react";
 
+import useVeterinarios from "../hooks/useVeterinarios";
+
 const Empleados = ({ info, trabajadores }) => {
+  const {guardarVeterinarios} = useVeterinarios();
+
   const { AUXILIARES } = trabajadores;
   const { VETERINARIOS } = trabajadores;
   const array_trabajadores = AUXILIARES.auxiliares.concat(
@@ -25,25 +27,10 @@ const Empleados = ({ info, trabajadores }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const token = localStorage.getItem("token");
-    if (!token) return;
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    };
-    try {
-      empleados.forEach(async (empleado) => {
-        await clienteAxios.put(
-          `/veterinarios/actualizar-trabajador/${empleado._id}`,
-          empleado,
-          config
-        );
-      });
-      setAlerta({ msg: "Cambios realizados", error: false });
-    } catch (error) {
-      console.log(error);
+    const respuesta = guardarVeterinarios(empleados);
+
+    if(respuesta){
+      setAlerta({msg:"Empleados actualizados",error:false})
     }
   };
 

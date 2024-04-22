@@ -1,8 +1,13 @@
 import { useEffect, useState } from "react";
 import clienteAxios from "../config/axios";
 import Alerta from "../components/Alerta";
+import useVeterinarios from "../hooks/useVeterinarios";
 
 const AddEmpleados = () => {
+  //-use
+  const {guardarVeterinario} = useVeterinarios();
+
+
   const [nombre, setNombre] = useState("");
   const [telefono, setTelefono] = useState("");
   const [correo, setCorreo] = useState("");
@@ -37,28 +42,10 @@ const AddEmpleados = () => {
       });
       return;
     }
-    try {
-      const token = localStorage.getItem("token");
-      if (!token) return;
-      const config = {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      };
+    const empleado = { nombre, telefono, email: correo, password:contraseña, rol };
+    const respuesta = await guardarVeterinario(empleado);
+    setAlerta({msg:respuesta.msg,error:respuesta.error})
 
-      const empleado = { nombre, telefono, email: correo, password:contraseña, rol };
-      const respuesta = await clienteAxios.post(
-        "/veterinarios/registrar-trabajador",
-        empleado,
-        config
-      );
-      setAlerta({ msg: respuesta.data.msg, error: false });
- 
-    } catch (error) {
-      setAlerta({ msg: error.response.data.msg, error: true });
-      return;
-    }
   };
   return (
     <div>

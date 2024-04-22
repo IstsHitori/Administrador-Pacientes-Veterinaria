@@ -18,7 +18,7 @@ export const VeterinariosProvider = ({ children }) => {
             Authorization: `Bearer ${token}`,
           },
         };
-        const {data} = await clienteAxios(
+        const { data } = await clienteAxios(
           "/veterinarios/mostrar-trabajadores",
           config
         );
@@ -30,11 +30,53 @@ export const VeterinariosProvider = ({ children }) => {
     obtenerVeterinarios();
   }, []);
 
-  const guardarVeterinarios = async () => {
-    console.log("Guardando...");
+  const guardarVeterinarios = async (empleados) => {
+    const token = localStorage.getItem("token");
+    if (!token) return;
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    try {
+      empleados.forEach(async (empleado) => {
+        await clienteAxios.put(
+          `/veterinarios/actualizar-trabajador/${empleado._id}`,
+          empleado,
+          config
+        );
+      });
+      return true;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const guardarVeterinario = async (empleado) => {
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) return;
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      };
+
+      const respuesta = await clienteAxios.post(
+        "/veterinarios/registrar-trabajador",
+        empleado,
+        config
+      );
+      return { msg: respuesta.data.msg, error: false };
+    } catch (error) {
+      return { msg: error.response.data.msg, error: true };
+    }
   };
   return (
-    <VeterinariosContext.Provider value={{ veterinarios, guardarVeterinarios }}>
+    <VeterinariosContext.Provider
+      value={{ veterinarios, guardarVeterinarios, guardarVeterinario }}
+    >
       {children}
     </VeterinariosContext.Provider>
   );

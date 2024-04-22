@@ -25,7 +25,6 @@ const Login = () => {
         email,
         password,
       });
-      console.log(respuesta);
       const {data} = respuesta;
       setAuth({info:data});
       localStorage.setItem("token", data.veterinario.token);
@@ -33,7 +32,6 @@ const Login = () => {
       //para que nos envíe a la ruta del rol envíe a la
       // Resto de tu código
     } catch (error) {
-      console.log(error);
       setAlerta({ msg: error.response.data.msg, error: true }); 
     }
   };
