@@ -2,9 +2,11 @@
 import { useState, useEffect } from "react";
 import Select from "./Select";
 import Alerta from "../components/Alerta";
-import clienteAxios from "../config/axios";
+import usePacientes from "../hooks/usePacientes";
+import useVeterinarios from "../hooks/useVeterinarios";
+import { Trabajadores } from "../helpers/helpers";
 
-const AddPacientes = ({ trabajadores, id_admin }) => {
+const AddPacientes = ({ id_admin }) => {
   const [nombre, setNombre] = useState("");
   const [propietario, setPropietario] = useState("");
   const [email, setEmail] = useState("");
@@ -13,6 +15,10 @@ const AddPacientes = ({ trabajadores, id_admin }) => {
   const [docPropietario, setDocPropietario] = useState("");
   const [veterinario, setVeterinario] = useState("");
   const [sintomas, setSintomas] = useState("");
+
+  //---Use
+  const { guardarPaciente } = usePacientes();
+  const {veterinarios} = useVeterinarios();
 
   //Variables
   const divClase =
@@ -35,44 +41,24 @@ const AddPacientes = ({ trabajadores, id_admin }) => {
         fechaAlta,
         tamaño,
         docPropietario,
-        veterinario,
         sintomas,
       ].includes("")
     ) {
       setAlerta({ msg: "Hay campos vacíos", error: true });
       return;
     }
-    try {
-      const token = localStorage.getItem("token");
-      if (!token) return;
-      const config = {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      };
-      const paciente = {
-        nombre,
-        propietario,
-        docPropietario,
-        email,
-        fechaAlta,
-        sintomas,
-        tamano: tamaño,
-        veterinario,
-        auxiliar: id_admin,
-      };
-
-      const respuesta = await clienteAxios.post(
-        "/pacientes/",
-        paciente,
-        config
-      );
-      setAlerta({ msg: "Paciente registrado correctamente", error: false });
-    } catch (error) {
-      setAlerta({ msg: error.response.data.msg, error: true });
-      return;
-    }
+    const respuesta = await guardarPaciente({
+      nombre,
+      propietario,
+      docPropietario,
+      email,
+      fechaAlta,
+      sintomas,
+      tamano: tamaño,
+      veterinario,
+      auxiliar: id_admin,
+    });
+    setAlerta({msg:respuesta.msg,error:respuesta.error})
   };
   return (
     <div>
@@ -199,7 +185,7 @@ const AddPacientes = ({ trabajadores, id_admin }) => {
               <Select
                 setVeterinario={setVeterinario}
                 clase={"outline-none text-white text-sm bg-gray-800"}
-                data={trabajadores}
+                data={Trabajadores(veterinarios)}
               />
             </div>
             <span className="flex items-center justify-center text-gray-400">

@@ -1,18 +1,18 @@
 import { Link, useNavigate } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 import { useState } from "react";
+import { useEffect } from "react";
 import Alerta from "../components/Alerta";
 import clienteAxios from "../config/axios";
+import { ROLES } from "../helpers/helpers";
 
 const Login = () => {
   const { auth } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [alerta, setAlerta] = useState({});
-
+  const {setAuth} = useAuth();
   const navigate = useNavigate();
-  const { setAuth } = useAuth();
-
   //Submit form
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -21,28 +21,37 @@ const Login = () => {
       return;
     }
     try {
-      const { data } = await clienteAxios.post("/veterinarios/login", {
+      const respuesta  = await clienteAxios.post("/veterinarios/login", {
         email,
         password,
       });
-      localStorage.setItem("token", data.token);
-      //Para saber que rol es
-      console.log(auth);
-      const rol = auth.info.veterinario.rol.nombre;
+      console.log(respuesta);
+      const {data} = respuesta;
+      setAuth({info:data});
+      localStorage.setItem("token", data.veterinario.token);
+      
       //para que nos envíe a la ruta del rol envíe a la
-      console.log("aaaa");
-      if (rol === "ADMIN_ROL") {
-        navigate("/admin-dashboard");
-      } else if (rol === "AUXILIAR_ROL") {
-        navigate("/auxiliar-dashboard");
-      } else {
-        navigate("/veterinario-dashboard");
-      }
+      // Resto de tu código
     } catch (error) {
       console.log(error);
       setAlerta({ msg: error.response.data.msg, error: true }); 
     }
   };
+
+  useEffect(() => {
+    if (auth?.info?.veterinario?.rol) {
+      console.log(auth);
+      const { rol } = auth.info.veterinario;
+      console.log("paso")
+      if (rol.nombre === ROLES.ADMIN_ROL) {
+        navigate("/admin-dashboard");
+      } else if (rol === ROLES.AUXILIAR_ROL) {
+        navigate("/auxiliar-dashboard");
+      } else {
+        navigate("/veterinario-dashboard");
+      }
+    }
+  }, [auth.info]);
   const { msg } = alerta;
   return (
     <>

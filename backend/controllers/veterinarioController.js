@@ -59,7 +59,10 @@ const autenticar = async (req, res) => {
   const { email, password } = req.body;
   //Pasos para autenticar al usuario
   //1-Comprobar que el usuario existe
-  const usuario = await Veterinario.findOne({ email });
+  const usuario = await Veterinario.findOne({ email }).populate(
+    "rol",
+    "_id nombre"
+  );
   if (!usuario) {
     const error = new Error("El usuario no existe");
     //status 403 - no autorizado
@@ -75,8 +78,20 @@ const autenticar = async (req, res) => {
     const error = new Error("Contraseña incorrecta");
     return res.status(403).json({ msg: error.message });
   }
+  usuario.token = generarJWT(usuario.id);
   //4-Autenticar al usuario con JSON WEB TOKEN
-  res.json({ token: generarJWT(usuario.id) });
+  res.json({
+    veterinario: {
+      _id: usuario._id,
+      nombre: usuario.nombre,
+      confirmado: usuario.confirmado,
+      estado: usuario.estado,
+      rol: usuario.rol,
+      email: usuario.email,
+      telefono: usuario.telefono,
+      token: usuario.token,
+    },
+  });
 };
 
 //Para recuperar la contraseña
@@ -194,12 +209,12 @@ const perfil = async (req, res) => {
   });
 };
 
-const obtenerTrabajador = async(req,res) => {
-  const {id} = req.params;
+const obtenerTrabajador = async (req, res) => {
+  const { id } = req.params;
 
   const veterinario = await Veterinario.findById(id).select("-password");
-  return res.json({veterinario});  
-}
+  return res.json({ veterinario });
+};
 
 //Registrar el trabajador
 const registrarTrabajador = async (req, res) => {
@@ -213,11 +228,15 @@ const registrarTrabajador = async (req, res) => {
     );
     return res.status(400).json({ msg: error.message });
   }
-  const idRol = (await Roles.findOne( nombreRol ))._id;
+  const idRol = (await Roles.findOne(nombreRol))._id;
   const empleado = new Veterinario(req.body);
   empleado.rol = idRol;
   const empleadoGuardado = await empleado.save();
-  emailRegistro({email,nombre:empleadoGuardado.nombre,token:empleadoGuardado.token});
+  emailRegistro({
+    email,
+    nombre: empleadoGuardado.nombre,
+    token: empleadoGuardado.token,
+  });
 
   return res.json({ msg: "Empleado registrado correctamente." });
 };
@@ -233,5 +252,5 @@ export {
   obtenerTrabajadores,
   actualizarTrabajador,
   registrarTrabajador,
-  obtenerTrabajador
+  obtenerTrabajador,
 };

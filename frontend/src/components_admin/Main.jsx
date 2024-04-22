@@ -13,27 +13,28 @@ import AddPacientes from "./AddPacientes.jsx";
 import Historias from "./Historias.jsx";
 import AddHistorias from "./AddHistorias.jsx";
 
+//--
+import clienteAxios from "../config/axios.jsx";
+
+//--Use
+import useVeterinarios from "../hooks/useVeterinarios.jsx";
+import useHistorias from "../hooks/useHistorias.jsx";
+import usePacientes from "../hooks/usePacientes.jsx";
+
 const Main = () => {
   //
   const location = useLocation();
   const [activePath, setActivePath] = useState(location.pathname);
+  const { auth } = useAuth();
+  const { info } = auth;
 
+  const { veterinarios } = useVeterinarios();
+  const { historias } = useHistorias();
+  const { pacientes } = usePacientes();
   useEffect(() => {
     setActivePath(location.pathname);
   }, [location]);
-
-  const { auth } = useAuth();
-  const { info } = auth;
-  console.log(auth);
   //Me trae los trabajadores
-  const trabajadores = Trabajadores(auth.trabajadores.trabajadores);
-
-  //Pacientes
-  const cantidadPacientes = auth.pacientes.length;
-  //Gistorias
-  const cantidadHistorias = auth.historias.length;
-  //cantidad trabajadores
-  console.log(trabajadores);
 
   return (
     <main className="p-3 flex items-center md:w-full pt-[2rem]">
@@ -41,24 +42,27 @@ const Main = () => {
         {activePath === "/admin-dashboard" ? (
           <Dashboard
             info={info}
-            trabajadores={trabajadores}
-            cantidadHistorias={cantidadHistorias}
-            cantidadPacientes={cantidadPacientes}
+            trabajadores={Trabajadores(veterinarios)}
+            cantidadHistorias={historias.length}
+            cantidadPacientes={pacientes.length}
           />
         ) : (
           ""
         )}
-
-        {activePath === "/admin-dashboard/empleados" ? <Empleados info={info} trabajadores={trabajadores}/> : ""}
+        {activePath === "/admin-dashboard/empleados" ? <Empleados info={info} trabajadores={Trabajadores(veterinarios)}/> : ""}
+        {activePath === "/admin-dashboard/agregar-pacientes" ? (
+          <AddPacientes id_admin={info.veterinario._id} />
+        ) : (
+          ""
+        )}
 
         {activePath === "/admin-dashboard/agregar-empleados" ? (
           <AddEmpleados />
         ) : (
           ""
         )}
-        {activePath === "/admin-dashboard/pacientes" ? <Pacientes pacientes={auth.pacientes} /> : ""}
-        {activePath === "/admin-dashboard/agregar-pacientes" ? (
-          <AddPacientes trabajadores={trabajadores} id_admin={info.veterinario._id} />
+        {activePath === "/admin-dashboard/pacientes" ? (
+          <Pacientes pacientes={pacientes} />
         ) : (
           ""
         )}

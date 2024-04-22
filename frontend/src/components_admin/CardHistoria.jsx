@@ -23,8 +23,8 @@ const CardHistoria = ({ clase, paciente }) => {
     >
       <div className="flex items-center justify-between">
         <div className="flex gap-2">
-          <div className={`${img} rounded-[50%] p-3 text-[15px]`}>
-            <p>{nombre[0] + nombre[1]}</p>
+          <div className={`${img} rounded-[50%] w-11 h-11 text-[15px] text-center flex items-center justify-center`}>
+            <p className="text-center">{nombre[0] + nombre[1]}</p>
           </div>
           <div>
             <h4 className={`${h4} text-[14px]`}>{nombre}</h4>

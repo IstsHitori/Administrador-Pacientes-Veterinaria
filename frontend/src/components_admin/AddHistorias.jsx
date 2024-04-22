@@ -1,14 +1,17 @@
-import useAuth from "../hooks/useAuth";
 import { useState, useEffect } from "react";
 import CardHistoria from "./CardHistoria";
 import clienteAxios from "../config/axios";
 import Alerta from "../components/Alerta";
+import usePacientes from "../hooks/usePacientes";
 const AddHistorias = () => {
+  //Use
+  const {pacientes,obtenerPaciente} = usePacientes();
+
   //States
   const [docPropietario, setDocPropietario] = useState("");
-  const { modoOscuro, auth } = useAuth();
-  const [pacientes, setPacientes] = useState(auth.pacientes);
+  const [PACIENTES, setPacientes] = useState(pacientes);
   const [alerta, setAlerta] = useState({});
+
   //---
 
   //Variables
@@ -32,46 +35,17 @@ const AddHistorias = () => {
         backGround: "bg-gray-200",
       },
     },
+    
   });
+  const modoOscuro = true;
   //---
 
-  //Funciones
-  const getIdPaciente = (documento) => {
-    return pacientes.filter(
-      (paciente) => paciente.docPropietario.toString() === documento
-    );
-  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    try {
-      const token = localStorage.getItem("token");
-      if (!token) return;
-      const config = {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      };
-      if ([docPropietario].includes("")) {
-        setPacientes(pacientes);
-        return;
-      }
-      const respuesta = await clienteAxios(
-        `/pacientes/${docPropietario}`,
-        config
-      );
-      if (respuesta.data.length < 1) {
-        setAlerta({ msg: "No se encontró el paciente", error: true });
-        return;
-      }
-      console.log(respuesta);
-      if (respuesta.statusText === "OK") {
-        setPacientes(respuesta.data);
-      }
-    } catch (error) {
-      console.log(error);
-    }
+    obtenerPaciente(docPropietario);
+    
   };
   //---
 
