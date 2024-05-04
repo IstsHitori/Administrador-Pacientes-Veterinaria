@@ -65,7 +65,7 @@ const actualizarPaciente = async (req, res) => {
   //Actualizamos el paciente
   paciente.nombre = req.body.nombre || paciente.nombre;
   paciente.propietario = req.body.propietario || paciente.propietario;
-  paciente.email = req.body.email || paciente.email;
+  paciente.telefono = req.body.telefono || paciente.telefono;
   paciente.fecha = req.body.fecha || paciente.fecha;
   paciente.sintomas = req.body.sintomas || paciente.sintomas;
   paciente.estado = req.body.estado;

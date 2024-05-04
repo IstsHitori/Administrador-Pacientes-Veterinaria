@@ -66,7 +66,7 @@ const Main = () => {
         ) : (
           ""
         )}
-        {activePath === "/admin-dashboard/historias" ? <Historias /> : ""}
+        {activePath === "/admin-dashboard/historias" ? <Historias  /> : ""}
         {activePath === "/admin-dashboard/agregar-historias" ? (
           <AddHistorias />
         ) : (

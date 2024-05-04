@@ -38,11 +38,11 @@ const Pacientes = ({ pacientes }) => {
         <div className="mb-2">
           <form
             onSubmit={handleSubmit}
-            className="px-5 flex items-center gap-2"
+            className="px-5 py-2 flex items-center gap-2"
             action=""
           >
             <input
-              className="p-[10px] outline-none bg-zinc-900 rounded-lg text-white text-sm"
+              className="p-[10px] outline-none bg-zinc-900 rounded-lg text-white text-[12px]"
               type="number"
               value={docPropietario}
               onChange={(e) => {
@@ -59,7 +59,7 @@ const Pacientes = ({ pacientes }) => {
           </form>
         </div>
         <hr />
-        <div className="relative grid grid-cols-1 gap-3 md:max-h-[400px] max-h-[660px]  overflow-y-auto mt-2 p-2 md:grid-cols-3">
+        <div className="relative grid grid-cols-1 h-[660px] gap-3 md:max-h-[325px] max-h-[660px]  overflow-y-auto mt-2 p-2 md:grid-cols-3">
           {modal.data && (
             <Modal infoPaciente={modal.data} setModal={setModal} />
           )}

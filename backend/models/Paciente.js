@@ -4,7 +4,7 @@ const pacienteSchema = mongoose.Schema({
   nombre: { type: String, required: true },
   propietario: { type: String, required: true },
   docPropietario: {type:String, required: true},
-  email: { type: String, required: true },
+  telefono: { type: String, required: true },
   fecha : { type: Date,required: true, default: Date.now()},
   sintomas: { type: String, required: true },
   estado: {type: Boolean, default: true},

@@ -9,7 +9,7 @@ import { Trabajadores } from "../helpers/helpers";
 const AddPacientes = ({ id_admin }) => {
   const [nombre, setNombre] = useState("");
   const [propietario, setPropietario] = useState("");
-  const [email, setEmail] = useState("");
+  const [telefono, setTelefono] = useState("");
   const [fechaAlta, setFechaAlta] = useState("");
   const [tamaño, setTamaño] = useState("");
   const [docPropietario, setDocPropietario] = useState("");
@@ -37,7 +37,7 @@ const AddPacientes = ({ id_admin }) => {
       [
         nombre,
         propietario,
-        email,
+        telefono,
         fechaAlta,
         tamaño,
         docPropietario,
@@ -51,7 +51,7 @@ const AddPacientes = ({ id_admin }) => {
       nombre,
       propietario,
       docPropietario,
-      email,
+      telefono,
       fechaAlta,
       sintomas,
       tamano: tamaño,
@@ -113,18 +113,18 @@ const AddPacientes = ({ id_admin }) => {
 
           <div className={divClase}>
             <div>
-              <p className="text-[10px] text-gray-500">Correo</p>
+              <p className="text-[10px] text-gray-500">Telefono</p>
               <input
                 className="outline-none bg-transparent text-[11.5px] text-white md:w-[5rem]"
-                type="email"
-                value={email}
+                type="number"
+                value={telefono}
                 onChange={(e) => {
-                  setEmail(e.target.value);
+                  setTelefono(e.target.value);
                 }}
               />
             </div>
             <span className="flex items-center justify-center text-gray-400">
-              <ion-icon name="mail-outline"></ion-icon>{" "}
+            <ion-icon name="phone-portrait-outline"></ion-icon>{" "}
             </span>
           </div>
 

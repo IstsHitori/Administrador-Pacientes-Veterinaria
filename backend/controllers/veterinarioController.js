@@ -179,10 +179,8 @@ const obtenerTrabajadores = async (req, res) => {
     await Roles.find().where("nombre").equals("ADMIN_ROL").select("-nombre")
   )[0]._id;
 
-  //validar si el
-  if (veterinarioRol.toString() !== rolAdmin.toString())
-    return res.status(404).json({ msg: "No tienes permiso para esta acción" });
-  const nombreRolesPermitidos = ["VETERINARIO_ROL", "AUXILIAR_ROL"];
+
+  const nombreRolesPermitidos = ["VETERINARIO_ROL", "AUXILIAR_ROL","ADMIN_ROL"];
   //traerme los roles que sean veterinario
   const roles = await Roles.find()
     .where("nombre")

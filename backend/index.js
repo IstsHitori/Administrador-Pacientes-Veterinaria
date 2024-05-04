@@ -5,7 +5,6 @@ import dotenv from "dotenv";
 import cors from "cors"
 import veterinarioRoutes from "./routes/veterinarioRoutes.js";
 import pacienteRoutes from "./routes/pacienteRoutes.js";
-import rolesRoutes from "./routes/rolesRoutes.js";
 import historiasRoutes from "./routes/historiasRoutes.js";
 //Middleware's
 
@@ -36,9 +35,6 @@ app.use("/api/veterinarios",veterinarioRoutes);
 
 //Routing para pacientes
 app.use("/api/pacientes",pacienteRoutes);
-
-//Routing para roles
-app.use("/api/roles", rolesRoutes);
 
 //Routing para historias
 app.use("/api/historias",historiasRoutes);

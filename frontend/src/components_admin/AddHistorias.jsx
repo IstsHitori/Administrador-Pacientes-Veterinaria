@@ -1,15 +1,14 @@
 import { useState, useEffect } from "react";
-import CardHistoria from "./CardHistoria";
+import CardAddHistoria from "./CardAddHistoria";
 import clienteAxios from "../config/axios";
 import Alerta from "../components/Alerta";
 import usePacientes from "../hooks/usePacientes";
 const AddHistorias = () => {
   //Use
-  const {pacientes,obtenerPaciente} = usePacientes();
+  const { pacientes, obtenerPaciente } = usePacientes();
 
   //States
   const [docPropietario, setDocPropietario] = useState("");
-  const [PACIENTES, setPacientes] = useState(pacientes);
   const [alerta, setAlerta] = useState({});
 
   //---
@@ -35,17 +34,14 @@ const AddHistorias = () => {
         backGround: "bg-gray-200",
       },
     },
-    
   });
   const modoOscuro = true;
   //---
-
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     obtenerPaciente(docPropietario);
-    
   };
   //---
 
@@ -95,7 +91,7 @@ const AddHistorias = () => {
             {alerta.msg && <Alerta alerta={alerta} />}
             {pacientes.map((paciente) => {
               return (
-                <CardHistoria
+                <CardAddHistoria
                   key={paciente._id}
                   paciente={paciente}
                   clase={

@@ -19,7 +19,7 @@ const Modal = ({ infoPaciente, setModal }) => {
   //States
   const [nombre, setNombre] = useState(infoPaciente.nombre);
   const [propietario, setPropietario] = useState(infoPaciente.propietario);
-  const [email, setEmail] = useState(infoPaciente.email);
+  const [telefono, setTelefono] = useState(infoPaciente.telefono);
   const [fechaAlta, setFechaAlta] = useState(formarDate(infoPaciente.fecha));
   const [tamaño, setTamaño] = useState(infoPaciente.tamano);
   const [docPropietario, setDocPropietario] = useState(
@@ -41,7 +41,7 @@ const Modal = ({ infoPaciente, setModal }) => {
       [
         nombre,
         propietario,
-        email,
+        telefono,
         fechaAlta,
         tamaño,
         docPropietario,
@@ -159,18 +159,18 @@ const Modal = ({ infoPaciente, setModal }) => {
 
           <div className="py-2 px-5 bg-gray-800 flex items-center justify-between rounded-lg">
             <div>
-              <p className="text-[10px] text-gray-500">Correo</p>
+              <p className="text-[10px] text-gray-500">Telefono</p>
               <input
                 className="outline-none bg-transparent text-[11.5px] text-white md:w-[10rem]"
-                type="email"
-                value={email}
+                type="number"
+                value={telefono}
                 onChange={(e) => {
-                  setEmail(e.target.value);
+                  setTelefono(e.target.value);
                 }}
               />
             </div>
             <span className="flex items-center justify-center text-gray-400">
-              <ion-icon name="mail-outline"></ion-icon>{" "}
+            <ion-icon name="phone-portrait-outline"></ion-icon>{" "}
             </span>
           </div>
 
