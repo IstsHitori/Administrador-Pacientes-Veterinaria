@@ -5,24 +5,25 @@ import clienteAxios from "../src/config/axios";
 const PacientesContext = createContext();
 export const PacientesProvider = ({ children }) => {
   const [pacientes, setPacientes] = useState([]);
-  const obtenerPacientes = async () => {
-    try {
-      const token = localStorage.getItem("token");
-      if (!token) return;
 
-      const config = {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      };
-      const {data} = await clienteAxios("/pacientes",config);
-      setPacientes(data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
   useEffect(() => {
+    const obtenerPacientes = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        if (!token) return;
+  
+        const config = {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        };
+        const {data} = await clienteAxios("/pacientes",config);
+        setPacientes(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
     obtenerPacientes();
   }, []);
   const guardarPaciente = async (paciente) => {
@@ -96,7 +97,6 @@ export const PacientesProvider = ({ children }) => {
         setPacientes,
         guardarPaciente,
         obtenerPaciente,
-        obtenerPacientes,
         actualizarPaciente
       }}
     >

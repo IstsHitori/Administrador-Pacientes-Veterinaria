@@ -5,12 +5,12 @@ import Alerta from "../components/Alerta";
 import usePacientes from "../hooks/usePacientes";
 const AddHistorias = () => {
   //Use
-  const { pacientes, obtenerPaciente,setPacientes,obtenerPacientes } = usePacientes();
+  const { pacientes, obtenerPaciente,setPacientes } = usePacientes();
 
   //States
   const [docPropietario, setDocPropietario] = useState("");
   const [alerta, setAlerta] = useState({});
-
+  const [PACIENTES,setPACIENTES] = useState(pacientes);
   //---
 
   //Variables
@@ -42,15 +42,16 @@ const AddHistorias = () => {
     e.preventDefault();
     const nuevos_pacientes = (await obtenerPaciente(docPropietario));
     if([docPropietario].includes("")) {
-      await obtenerPacientes();
+      setPACIENTES(pacientes)
       return;
     }
-    if(nuevos_pacientes === undefined){
+    if(nuevos_pacientes.length < 1){
       setAlerta({msg:"No se encontró el paciente",error:true});
       return;
     }
-    setPacientes(nuevos_pacientes);
-
+    
+    setPACIENTES(nuevos_pacientes);
+    setAlerta({msg:"Se encontraron datos",error:false})
   };
   //---
 
@@ -98,7 +99,7 @@ const AddHistorias = () => {
           <hr className="mt-3" />
           <div className="p-2">
             {alerta.msg && <Alerta alerta={alerta} />}
-            {pacientes.map((paciente) => {
+            {PACIENTES.map((paciente) => {
               return (
                 <CardAddHistoria
                   key={paciente._id}

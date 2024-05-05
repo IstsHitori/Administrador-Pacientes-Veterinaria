@@ -7,7 +7,7 @@ const CardHistoria = ({ HISTORIA }) => {
   const { historia, fecha, paciente, veterinario } = HISTORIA;
   const { pacientes } = usePacientes();
   const { veterinarios } = useVeterinarios();
-
+console.log(HISTORIA)
   const [visible, setVisible] = useState(false);
 
   //Obtener el nombre del veterinario y paciente

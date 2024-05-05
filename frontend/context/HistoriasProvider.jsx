@@ -5,7 +5,6 @@ const HistoriasContext = createContext();
 
 export const HistoriasProvider = ({ children }) => {
   const [historias, setHistorias] = useState([]);
-  console.log("entramos")
   useEffect(() => {
     const obtenerHistorias = async () => {
       try {
@@ -27,9 +26,6 @@ export const HistoriasProvider = ({ children }) => {
         console.log(error);
       }
     };
-    const obtenerHistoriasPaciente = async () =>{
-      //falta por hacer
-    }
     obtenerHistorias();
   }, []);
 
