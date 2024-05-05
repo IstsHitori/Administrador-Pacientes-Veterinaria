@@ -5,7 +5,7 @@ import Alerta from "../components/Alerta";
 import usePacientes from "../hooks/usePacientes";
 const AddHistorias = () => {
   //Use
-  const { pacientes, obtenerPaciente } = usePacientes();
+  const { pacientes, obtenerPaciente,setPacientes,obtenerPacientes } = usePacientes();
 
   //States
   const [docPropietario, setDocPropietario] = useState("");
@@ -40,8 +40,17 @@ const AddHistorias = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const nuevos_pacientes = (await obtenerPaciente(docPropietario));
+    if([docPropietario].includes("")) {
+      await obtenerPacientes();
+      return;
+    }
+    if(nuevos_pacientes === undefined){
+      setAlerta({msg:"No se encontró el paciente",error:true});
+      return;
+    }
+    setPacientes(nuevos_pacientes);
 
-    obtenerPaciente(docPropietario);
   };
   //---
 

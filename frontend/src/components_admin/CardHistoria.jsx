@@ -4,7 +4,7 @@ import usePacientes from "../hooks/usePacientes";
 import useVeterinarios from "../hooks/useVeterinarios";
 import { useState } from "react";
 const CardHistoria = ({ HISTORIA }) => {
-  const { _id, historia, fecha, paciente, veterinario } = HISTORIA;
+  const { historia, fecha, paciente, veterinario } = HISTORIA;
   const { pacientes } = usePacientes();
   const { veterinarios } = useVeterinarios();
 
@@ -72,14 +72,15 @@ const CardHistoria = ({ HISTORIA }) => {
       </div>
       {visible ? (
         <div className="text-white rounded-sm p-2">
-          <h1 className="text-[13px] text-center before:content-[''] before:w-[43%] before:h-1 before:rounded-lg block before:absolute before:left-0 before:bg-blue-600 before:bottom-[7px] after:content-[''] after:w-[43%] after:h-1 after:rounded-lg relative  after:absolute after:right-0 after:bg-blue-600 after:bottom-[7px]">
+          <h1 className="md:text-[13px] text-[10px] text-center before:content-[''] md:before:w-[43%] before:w-[30%] before:h-1 before:rounded-lg block before:absolute before:left-0 before:bg-blue-600 before:bottom-[7px] after:content-[''] md:after:w-[43%] after:w-[30%] after:h-1 after:rounded-lg relative after:absolute after:right-0 after:bg-blue-600 after:bottom-[7px]">
             Historia Clínica
           </h1>
           <textarea
             disabled
-            className="w-[100%] p-2 h-[150px] outline-none text-[13px] rounded-md mt-2 bg-gray-800"
+            defaultValue={historia}
+            className="w-[100%] p-2 h-[150px] outline-none md:text-[13px] text-[11px] rounded-md mt-2 bg-gray-800"
           >
-            {historia}
+            
           </textarea>
         </div>
       ) : null}
