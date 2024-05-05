@@ -112,7 +112,7 @@ const Nav = () => {
         </li>
       </ul>
       <div className="py-5 px-2 flex flex-col gap-2 mt-[8rem] md:mt-[1rem]">
-        <Link className="flex items-center justify-center bg-stone-900 rounded-[10px] py-2 px-2 text-[1.3rem] text-white hover:bg-stone-950 transition">
+        <Link to={"/admin-dashboard/configuracion"} className="flex items-center justify-center bg-stone-900 rounded-[10px] py-2 px-2 text-[1.3rem] text-white hover:bg-stone-950 transition">
           <ion-icon name="settings-outline"></ion-icon>
         </Link>
 

@@ -75,11 +75,11 @@ const AddHistorias = () => {
           <div className="mb-2">
             <form
               onSubmit={handleSubmit}
-              className="px-5 flex items-center gap-2"
+              className="px-5 py-2 flex items-center gap-2"
               action=""
             >
               <input
-                className="p-[10px] outline-none bg-zinc-900 rounded-lg text-white text-sm"
+                className="p-[10px] outline-none bg-zinc-900 rounded-lg text-white text-[11px] w-[180px] [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                 type="number"
                 min={0}
                 value={docPropietario}

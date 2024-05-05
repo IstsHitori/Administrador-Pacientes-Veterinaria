@@ -16,8 +16,9 @@ import AdminAddPacientes from "./paginas_admin/AdminAddPacientes";
 import AdminPacientes from "./paginas_admin/AdminPacientes";
 import AdminHistorias from "./paginas_admin/AdminHistorias";
 import AdminAddHistorias from "./paginas_admin/AdminAddHistorias";
-
+import AdminConfiguracion from "./paginas_admin/AdminConfiguracion";
 //Fin-Admin
+
 import AuxiliarDashBoard from "./paginas_auxiliar/AuxiliarDashBoard";
 import VeterinarioDashBoard from "./paginas_veterinario/VeterinarioDashBoard";
 //Provider
@@ -72,6 +73,10 @@ function App() {
                   <Route
                     path="/admin-dashboard/agregar-historias"
                     element={<AdminAddHistorias />}
+                  />
+                  <Route
+                    path="/admin-dashboard/configuracion"
+                    element={<AdminConfiguracion />}
                   />
                 </Route>
 

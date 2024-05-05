@@ -12,7 +12,7 @@ import Pacientes from "./Pacientes.jsx";
 import AddPacientes from "./AddPacientes.jsx";
 import Historias from "./Historias.jsx";
 import AddHistorias from "./AddHistorias.jsx";
-
+import Configuracion from "./Configuracion.jsx";
 //--
 import clienteAxios from "../config/axios.jsx";
 
@@ -72,6 +72,8 @@ const Main = () => {
         ) : (
           ""
         )}
+
+        {activePath === "/admin-dashboard/configuracion" ? <Configuracion /> : ""  }
       </section>
     </main>
   );
