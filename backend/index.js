@@ -12,7 +12,6 @@ const app = express();
 //Habilitamos a express de que pueda leer los datos que el usuario envien formato json
 app.use(express.json());
 dotenv.config();
-
 conectarDB();
 
 //Dominios permitidos

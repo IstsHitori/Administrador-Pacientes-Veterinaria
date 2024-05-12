@@ -4,9 +4,15 @@ import Select from "./Select";
 import Alerta from "../components/Alerta";
 import usePacientes from "../hooks/usePacientes";
 import useVeterinarios from "../hooks/useVeterinarios";
+import useAuth from "../hooks/useAuth";
 import { Trabajadores } from "../helpers/helpers";
 
-const AddPacientes = ({ id_admin }) => {
+const AddPacientes = () => {
+  const { auth } = useAuth();
+  const { info } = auth;
+  //ID ADMINISTRADOR
+  const id_admin = info.veterinario._id;
+  //--
   const [nombre, setNombre] = useState("");
   const [propietario, setPropietario] = useState("");
   const [telefono, setTelefono] = useState("");
@@ -18,7 +24,7 @@ const AddPacientes = ({ id_admin }) => {
 
   //---Use
   const { guardarPaciente } = usePacientes();
-  const {veterinarios} = useVeterinarios();
+  const { veterinarios } = useVeterinarios();
 
   //Variables
   const divClase =
@@ -58,7 +64,7 @@ const AddPacientes = ({ id_admin }) => {
       veterinario,
       auxiliar: id_admin,
     });
-    setAlerta({msg:respuesta.msg,error:respuesta.error})
+    setAlerta({ msg: respuesta.msg, error: respuesta.error });
   };
   return (
     <div>
@@ -124,7 +130,7 @@ const AddPacientes = ({ id_admin }) => {
               />
             </div>
             <span className="flex items-center justify-center text-gray-400">
-            <ion-icon name="phone-portrait-outline"></ion-icon>{" "}
+              <ion-icon name="phone-portrait-outline"></ion-icon>{" "}
             </span>
           </div>
 

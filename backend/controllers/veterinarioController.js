@@ -163,8 +163,13 @@ const actualizarTrabajador = async (req, res) => {
     if (!EMPLEADO) {
       res.json({ msg: `No se encontró el empleado` });
     }
-    EMPLEADO.estado = req.body.estado;
+    EMPLEADO.estado = req.body.estado || EMPLEADO.estado;
+    EMPLEADO.nombre = req.body.nombre || EMPLEADO.nombre;
+    EMPLEADO.telefono = req.body.telefono || EMPLEADO.telefono;
+    EMPLEADO.email = req.body.email || EMPLEADO.email;
+    EMPLEADO.password = req.body.password || EMPLEADO.password;
     const empledadoActualizado = await EMPLEADO.save();
+    return res.json();
   } catch (error) {
     console.log(error);
   }

@@ -1,12 +1,17 @@
 /* eslint-disable react/prop-types */
-
 // eslint-disable-next-line react/prop-types
-const Dashboard = ({
-  info,
-  trabajadores,
-  cantidadHistorias,
-  cantidadPacientes,
-}) => {
+import useAuth from "../hooks/useAuth";
+import { Trabajadores } from "../helpers/helpers.js";
+import useVeterinarios from "../hooks/useVeterinarios";
+import useHistorias from "../hooks/useHistorias";
+import usePacientes from "../hooks/usePacientes";
+const Dashboard = () => {
+  const { auth } = useAuth();
+  const { info } = auth;
+  const { veterinarios } = useVeterinarios();
+  const trabajadores = Trabajadores(veterinarios);
+  const cantidadHistorias = useHistorias().historias.length;
+  const cantidadPacientes = usePacientes().pacientes.length;
   return (
     <>
       <div className="text-center md:text-left md:px-16">

@@ -2,14 +2,19 @@
 /* eslint-disable react/prop-types */
 import Tr from "./Tr";
 import Th from "./Th";
-
+import { Trabajadores } from "../helpers/helpers.js";
+import useVeterinarios from "../hooks/useVeterinarios";
+import useAuth from "../hooks/useAuth";
 import Alerta from "../components/Alerta";
 import { useState, useEffect } from "react";
 
-import useVeterinarios from "../hooks/useVeterinarios";
 
-const Empleados = ({ info, trabajadores }) => {
-  const {guardarVeterinarios} = useVeterinarios();
+const Empleados = () => {
+  const {auth} = useAuth();
+  const {info}  = auth;
+  const {guardarVeterinarios, veterinarios} = useVeterinarios();
+
+  const trabajadores = Trabajadores(veterinarios);
 
   const { AUXILIARES } = trabajadores;
   const { VETERINARIOS } = trabajadores;
@@ -18,7 +23,6 @@ const Empleados = ({ info, trabajadores }) => {
   );
   const [alerta, setAlerta] = useState({});
   const [empleados, setEmpleados] = useState(array_trabajadores);
-
   useEffect(() => {
     setTimeout(() => {
       setAlerta({});
@@ -27,8 +31,7 @@ const Empleados = ({ info, trabajadores }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const respuesta = guardarVeterinarios(empleados);
-
+    const respuesta = await guardarVeterinarios(empleados);
     if(respuesta){
       setAlerta({msg:"Empleados actualizados",error:false})
     }

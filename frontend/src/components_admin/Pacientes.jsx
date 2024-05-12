@@ -2,11 +2,11 @@
 import { useState } from "react";
 import Card from "./Card";
 import Alerta from "../components/Alerta";
-import clienteAxios from "../config/axios";
 import usePacientes from "../hooks/usePacientes";
 import Modal from "./Modal";
 
-const Pacientes = ({ pacientes }) => {
+const Pacientes = () => {
+  const {pacientes} = usePacientes();
   const [docPropietario, setDocPropietario] = useState("");
   const [PACIENTES, setPACIENTES] = useState(pacientes);
   const [alerta, setAlerta] = useState({});

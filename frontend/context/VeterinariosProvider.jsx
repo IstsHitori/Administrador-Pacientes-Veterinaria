@@ -41,6 +41,7 @@ export const VeterinariosProvider = ({ children }) => {
     };
     try {
       empleados.forEach(async (empleado) => {
+        console.log(empleado.rol)
         await clienteAxios.put(
           `/veterinarios/actualizar-trabajador/${empleado._id}`,
           empleado,
@@ -73,9 +74,30 @@ export const VeterinariosProvider = ({ children }) => {
       return { msg: error.response.data.msg, error: true };
     }
   };
+  const actualizarVeterinario = async (empleado) => {
+    try{
+      const token = localStorage.getItem("token");
+      if(!token)return;
+
+      const config = {
+        headers: {
+          "Content-Type" : "application/json",
+          Authorization: `Bearer ${token}`
+        }
+      }
+      const respuesta = await clienteAxios.put(
+        `/veterinarios/actualizar-trabajador/${empleado._id}`,
+        empleado,
+        config
+      );
+      return respuesta;
+    }catch(error){
+      console.log(error);
+    }
+  };
   return (
     <VeterinariosContext.Provider
-      value={{ veterinarios, guardarVeterinarios, guardarVeterinario }}
+      value={{ veterinarios, guardarVeterinarios, guardarVeterinario,actualizarVeterinario }}
     >
       {children}
     </VeterinariosContext.Provider>
