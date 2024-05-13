@@ -1,38 +1,35 @@
 /* eslint-disable react/prop-types */
-import { useState} from "react";
+import { useState } from "react";
 import Card from "../components/Card";
 import Alerta from "../components/Alerta";
 import usePacientes from "../hooks/usePacientes";
 import Modal from "../components/Modal";
-
 const Pacientes = () => {
-  const {pacientes} = usePacientes();
+  const { pacientes } = usePacientes();
   const [docPropietario, setDocPropietario] = useState("");
   const [PACIENTES, setPACIENTES] = useState(pacientes);
   const [alerta, setAlerta] = useState({});
   const [modal, setModal] = useState({});
 
   //--Use
-  const { obtenerPaciente} = usePacientes();
-
- 
+  const { obtenerPaciente } = usePacientes();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if([docPropietario].includes("")){
+    if ([docPropietario].includes("")) {
       setPACIENTES(pacientes);
       return;
     }
-    const respuesta = await obtenerPaciente (docPropietario);
+    const respuesta = await obtenerPaciente(docPropietario);
     setPACIENTES(respuesta);
   };
   const { error } = alerta;
   return (
     <div className="">
       <div className="text-center md:text-left md:px-16">
-        <h2 className="text-gray-300 text-[14px]">Tus pacientes</h2>
-        <p className="text-zinc-500 text-[11px]">
-          Administra los pacientes de tu veterinaria
+        <h2 className="text-gray-300">Tus pacientes</h2>
+        <p className="text-zinc-500 text-[12px]">
+          Revisa tus pacientes
         </p>
       </div>
       <section className="relative mt-10 md:mt-2 bg-gray-900 md:px-3 rounded-lg">
@@ -63,7 +60,7 @@ const Pacientes = () => {
         <hr />
         <div className="relative grid grid-cols-1 h-[660px] gap-3 md:max-h-[325px] max-h-[660px]  overflow-y-auto mt-2 p-2 md:grid-cols-3">
           {modal.data && (
-            <Modal infoPaciente={modal.data} setModal={setModal} />
+            <Modal infoPaciente={modal.data} esAdmin={false} setModal={setModal} />
           )}
           {PACIENTES.length < 1 ? (
             <h3 className="p-5 bg-red-800 rounded-md w-full text-center text-white">

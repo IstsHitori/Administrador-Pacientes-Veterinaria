@@ -19,7 +19,21 @@ import AdminAddHistorias from "./paginas_admin/AdminAddHistorias";
 import AdminConfiguracion from "./paginas_admin/AdminConfiguracion";
 //Fin-Admin
 
+//Veterinario
+import VeterinarioConfiguración from "./paginas_veterinario/VeterinarioConfiguración";
+import VeterinarioAddHistorias from "./paginas_veterinario/VeterinarioAddHistorias";
+import VeterinarioHistorias from "./paginas_veterinario/VeterinarioHistorias";
+import VeterinarioPacientes from "./paginas_veterinario/VeterinarioPacientes";
+//Fin-veterinario
+
+//Auxiliar
 import AuxiliarDashBoard from "./paginas_auxiliar/AuxiliarDashBoard";
+import AuxiliarAddPacientes from "./paginas_auxiliar/AuxiliarAddPacientes";
+import AuxiliarHistorias from "./paginas_auxiliar/AuxiliarHistorias";
+import AuxiliarPacientes from "./paginas_auxiliar/AuxiliarPacientes";
+import AuxiliarConfiguracion from "./paginas_auxiliar/AuxiliarConfiguracion";
+//Fin-auxiliar
+
 import VeterinarioDashBoard from "./paginas_veterinario/VeterinarioDashBoard";
 //Provider
 import { AuthProvider } from "../context/AuthProvider";
@@ -81,6 +95,22 @@ function App() {
                 </Route>
 
                 <Route path="/auxiliar-dashboard" element={<RutaProtegida />}>
+                  <Route
+                    path="/auxiliar-dashboard/pacientes"
+                    element={<AuxiliarPacientes />}
+                  />
+                  <Route
+                    path="/auxiliar-dashboard/agregar-pacientes"
+                    element={<AuxiliarAddPacientes />}
+                  />
+                  <Route
+                    path="/auxiliar-dashboard/historias"
+                    element={<AuxiliarHistorias />}
+                  />
+                  <Route
+                    path="/auxiliar-dashboard/configuracion"
+                    element={<AuxiliarConfiguracion />}
+                  />
                   <Route index element={<AuxiliarDashBoard />} />
                 </Route>
 
@@ -88,6 +118,23 @@ function App() {
                   path="/veterinario-dashboard"
                   element={<RutaProtegida />}
                 >
+                  <Route
+                    path="/veterinario-dashboard/pacientes"
+                    element={<VeterinarioPacientes />}
+                  />
+                  <Route
+                    path="/veterinario-dashboard/agregar-historias"
+                    element={<VeterinarioAddHistorias />}
+                  />
+
+                  <Route
+                    path="/veterinario-dashboard/historias"
+                    element={<VeterinarioHistorias />}
+                  />
+                  <Route
+                    path="/veterinario-dashboard/configuracion"
+                    element={<VeterinarioConfiguración />}
+                  />
                   <Route index element={<VeterinarioDashBoard />} />
                 </Route>
               </Routes>

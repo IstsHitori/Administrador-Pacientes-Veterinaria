@@ -1,11 +1,12 @@
 /* eslint-disable react/prop-types */
 import { createContext, useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import clienteAxios from "../src/config/axios";
 
 const PacientesContext = createContext();
 export const PacientesProvider = ({ children }) => {
   const [pacientes, setPacientes] = useState([]);
-
+  const location = useLocation();
   useEffect(() => {
     const obtenerPacientes = async () => {
       try {
@@ -25,7 +26,7 @@ export const PacientesProvider = ({ children }) => {
       }
     };
     obtenerPacientes();
-  }, []);
+  }, [location.pathname]);
   const guardarPaciente = async (paciente) => {
     try {
       const token = localStorage.getItem("token");

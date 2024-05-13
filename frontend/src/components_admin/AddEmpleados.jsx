@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import clienteAxios from "../config/axios";
 import Alerta from "../components/Alerta";
 import useVeterinarios from "../hooks/useVeterinarios";
 
@@ -84,7 +83,7 @@ const AddEmpleados = () => {
             <div>
               <p className="text-[10px] text-gray-500">Telefono</p>
               <input
-                className="appearance-none focus:outline-none bg-transparent text-[11.5px] md:w-[20rem] text-white"
+                className="[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none focus:outline-none bg-transparent text-[11.5px] md:w-[20rem] text-white"
                 type="number"
                 value={telefono}
                 onChange={(e) => {

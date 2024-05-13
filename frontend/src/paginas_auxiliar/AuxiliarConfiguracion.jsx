@@ -1,7 +1,7 @@
 import Nav from "../components_auxiliar/Nav";
 import Main from "../components_auxiliar/Main";
 
-const AuxiliarDashBoard = () => {
+const AuxiliarConfiguracion = () => {
   return (
     <>
       <Nav />
@@ -10,4 +10,4 @@ const AuxiliarDashBoard = () => {
   );
 };
 
-export default AuxiliarDashBoard;
+export default AuxiliarConfiguracion;

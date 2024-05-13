@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import { useState } from "react";
-import ModalAddHistoria from "./ModalAddHistoria";
+import ModalAddHistoria from "../components_admin/ModalAddHistoria";
 const CardAddHistoria = ({ clase, paciente }) => {
   const { article, img, h4, h4_p, ModalClases } = clase;
   //Paciente

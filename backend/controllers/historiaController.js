@@ -1,10 +1,18 @@
 import Historia from "../models/Historias.js";
 import Veterinario from "../models/Veterinario.js";
 import Paciente from "../models/Paciente.js";
+import Roles from "../models/Roles.js";
 
 const obtenerHistorias = async (req, res) => {
-  const historias = await Historia.find();
-  res.json(historias);
+  const rolBuscar = req.veterinario.rol;
+  const rol = await Roles.findById(rolBuscar);
+  //Si es admin
+  if (rol.nombre === "ADMIN_ROL" || rol.nombre === "AUXILIAR_ROL") {
+    const historias = await Historia.find();
+    return res.json(historias);
+  }
+  const historias = await Historia.find().where("veterinario").equals(req.veterinario._id);
+  return res.json(historias);
 };
 
 const agregarHistoriaPaciente = async (req, res) => {

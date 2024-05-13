@@ -168,7 +168,7 @@ const actualizarTrabajador = async (req, res) => {
     EMPLEADO.telefono = req.body.telefono || EMPLEADO.telefono;
     EMPLEADO.email = req.body.email || EMPLEADO.email;
     EMPLEADO.password = req.body.password || EMPLEADO.password;
-    const empledadoActualizado = await EMPLEADO.save();
+    const empledadoActualizado = await EMPLEADO.save();    
     return res.json();
   } catch (error) {
     console.log(error);

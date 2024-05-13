@@ -25,13 +25,14 @@ const obtenerPacientes = async (req, res) => {
   const rol = await Roles.findById(rolBuscar);
 
   //Si es admin
-  if (rol.nombre === "ADMIN_ROL") {
+  if (rol.nombre === "ADMIN_ROL" || rol.nombre === "AUXILIAR_ROL") {
     const pacientes = await Paciente.find();
     return res.json(pacientes);
   }
+
   const pacientes = await Paciente.find()
     .where("veterinario")
-    .equals(req.veterinario);
+    .equals(req.veterinario._id);
 
   res.json(pacientes);
 };
@@ -63,13 +64,14 @@ const actualizarPaciente = async (req, res) => {
     return res.json({ msg: error.message });
   }
   //Actualizamos el paciente
+  console.log("se está actualizado")
   paciente.nombre = req.body.nombre || paciente.nombre;
   paciente.propietario = req.body.propietario || paciente.propietario;
   paciente.telefono = req.body.telefono || paciente.telefono;
   paciente.fecha = req.body.fecha || paciente.fecha;
   paciente.sintomas = req.body.sintomas || paciente.sintomas;
+  console.log(req.body.estado)
   paciente.estado = req.body.estado;
-
   try {
     const pacienteActualizado = await paciente.save();
     return res.json(pacienteActualizado);

@@ -11,7 +11,6 @@ const Historias = () => {
 
   const [paciente, setPaciente] = useState("");
   const [HISTORIAS, setHISTORIAS] = useState(historias);
-
   const [alerta, setAlerta] = useState({});
 
   useEffect(() => {
@@ -45,10 +44,10 @@ const Historias = () => {
   };
   return (
     <>
-      <div className="text-center md:text-left md:px-16 ">
-        <h2 className="text-gray-300 text-sm">Tus Historias Clínicas</h2>
+      <div className="text-center md:text-left md:px-8 ">
+        <h2 className="text-gray-300 text-sm">Historias clínicas de la veterinaria</h2>
         <p className="text-zinc-500 text-[11px]">
-          Administra las historias clínicas de tu veterinaria{" "}
+          Revisa las historias clínicas de los pacientes
         </p>
       </div>
       <section className="relative md:mt-2 bg-gray-900 md:px-3 rounded-lg overflow-y-auto max-h-[660px] md:max-h-[400px] py-2">

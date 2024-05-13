@@ -63,7 +63,7 @@ const Pacientes = () => {
         <hr />
         <div className="relative grid grid-cols-1 h-[660px] gap-3 md:max-h-[325px] max-h-[660px]  overflow-y-auto mt-2 p-2 md:grid-cols-3">
           {modal.data && (
-            <Modal infoPaciente={modal.data} setModal={setModal} />
+            <Modal infoPaciente={modal.data} esAdmin={true} setModal={setModal} />
           )}
           {PACIENTES.length < 1 ? (
             <h3 className="p-5 bg-red-800 rounded-md w-full text-center text-white">

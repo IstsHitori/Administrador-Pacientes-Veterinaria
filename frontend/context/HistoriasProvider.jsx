@@ -1,10 +1,11 @@
 import { createContext, useState, useEffect } from "react";
 import clienteAxios from "../src/config/axios";
-
+import { useLocation } from "react-router-dom";
 const HistoriasContext = createContext();
 
 export const HistoriasProvider = ({ children }) => {
   const [historias, setHistorias] = useState([]);
+  const location = useLocation();
   useEffect(() => {
     const obtenerHistorias = async () => {
       try {
@@ -27,7 +28,7 @@ export const HistoriasProvider = ({ children }) => {
       }
     };
     obtenerHistorias();
-  }, []);
+  }, [location.pathname]);
 
   const guardarHistoria = async () => {
     console.log("Guardando...");

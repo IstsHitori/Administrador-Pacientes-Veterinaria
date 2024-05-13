@@ -38,12 +38,13 @@ const Login = () => {
 
   useEffect(() => {
     if (auth?.info?.veterinario?.rol) {
+
       console.log(auth);
       const { rol } = auth.info.veterinario;
       console.log("paso")
       if (rol.nombre === ROLES.ADMIN_ROL) {
         navigate("/admin-dashboard");
-      } else if (rol === ROLES.AUXILIAR_ROL) {
+      } else if (rol.nombre === ROLES.AUXILIAR_ROL) {
         navigate("/auxiliar-dashboard");
       } else {
         navigate("/veterinario-dashboard");
