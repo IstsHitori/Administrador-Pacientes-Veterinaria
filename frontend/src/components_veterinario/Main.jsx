@@ -11,12 +11,13 @@ import AddHistorias from "./AddHistorias";
 //--
 
 //--Use
-
+import usePalette from "../hooks/usePalette";
 
 const Main = () => {
   //
   const location = useLocation();
   const [activePath, setActivePath] = useState(location.pathname);
+  const {modoOscuro} = usePalette();
   useEffect(() => {
     setActivePath(location.pathname);
   }, [location]);
@@ -24,7 +25,7 @@ const Main = () => {
 
   return (
     <main className="p-3 flex items-center md:w-full pt-[2rem]">
-      <section className="bg-gradient-to-t from-black h-full to-gray-900 rounded-xl md:w-full p-5 py-7">
+      <section className={`bg-gradient-to-t ${modoOscuro ? 'from-black to-gray-900' : 'from-white to-white'}  rounded-xl md:w-full p-5 py-7 h-full`}>
         {activePath === "/veterinario-dashboard" ? <Dashboard /> : ""}
         {activePath === "/veterinario-dashboard/configuracion" ? <Configuracion /> : ""}
         {activePath === "/veterinario-dashboard/pacientes" ? <Pacientes /> : ""}

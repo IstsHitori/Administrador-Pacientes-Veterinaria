@@ -1,5 +1,6 @@
 import { Outlet } from "react-router-dom";
 import "../paginas/Fonts.css"
+import usePalette from "../hooks/usePalette";
 const AuthLayout = () => {
   return (
     <>

@@ -5,7 +5,7 @@ import Alerta from "../components/Alerta";
 /* eslint-disable react/prop-types */
 
 // eslint-disable-next-line react/prop-types, no-unused-vars
-const ModalAddHistoria = ({ clase, paciente }) => {
+const ModalAddHistoria = ({paciente }) => {
   //Paciente
   const { nombre, docPropietario } = paciente;
   //---
@@ -55,11 +55,10 @@ const ModalAddHistoria = ({ clase, paciente }) => {
     }
   };
   //---
-  const { backGround, h1 } = clase;
   return (
-    <div className={`${backGround} transition-all rounded-lg p-2 mt-4`}>
+    <div className={`${'bg-gray-900'} transition-all rounded-lg p-2 mt-4`}>
         {alerta.msg && <Alerta alerta={alerta}/>}
-      <h1 className={`${h1} text-sm text-center`}>
+      <h1 className={`${'text-gray-100'} text-sm text-center`}>
         {`Registra una nueva historia clínica para  ${paciente.nombre}`}
       </h1>
       <hr className="block mt-3" />

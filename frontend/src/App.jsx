@@ -40,108 +40,113 @@ import { AuthProvider } from "../context/AuthProvider";
 import { PacientesProvider } from "../context/PacientesProvider";
 import { VeterinariosProvider } from "../context/VeterinariosProvider";
 import { HistoriasProvider } from "../context/HistoriasProvider";
-
+import { PaleteProvider } from "../context/PaletteProvider";
 function App() {
   return (
     <BrowserRouter>
-      <AuthProvider>
-        <PacientesProvider>
-          <VeterinariosProvider>
-            <HistoriasProvider>
-              <Routes>
-                {/* AREA PÚBLICA */}
-                <Route path="/" element={<AuthLayout />}>
-                  <Route index element={<Login />} />
-                  <Route path="registrar" element={<Registrar />} />
-                  <Route path="olvide-password" element={<OlvidePassword />} />
-                  <Route
-                    path="olvide-password/:TOKEN"
-                    element={<NuevoPassword />}
-                  />
-                  <Route path="confirmar/:id" element={<ConfirmarCuenta />} />
-                </Route>
+      <PaleteProvider>
+        <AuthProvider>
+          <PacientesProvider>
+            <VeterinariosProvider>
+              <HistoriasProvider>
+                <Routes>
+                  {/* AREA PÚBLICA */}
+                  <Route path="/" element={<AuthLayout />}>
+                    <Route index element={<Login />} />
+                    <Route path="registrar" element={<Registrar />} />
+                    <Route
+                      path="olvide-password"
+                      element={<OlvidePassword />}
+                    />
+                    <Route
+                      path="olvide-password/:TOKEN"
+                      element={<NuevoPassword />}
+                    />
+                    <Route path="confirmar/:id" element={<ConfirmarCuenta />} />
+                  </Route>
 
-                {/* AREA PRIVADA */}
-                <Route path="/admin-dashboard" element={<RutaProtegida />}>
-                  <Route index element={<AdminDashBoard />} />
-                  <Route
-                    path="/admin-dashboard/empleados"
-                    element={<AdminEmpleados />}
-                  />
-                  <Route
-                    path="/admin-dashboard/agregar-empleados"
-                    element={<AdminAddEmpleados />}
-                  />
-                  <Route
-                    path="/admin-dashboard/pacientes"
-                    element={<AdminPacientes />}
-                  />
-                  <Route
-                    path="/admin-dashboard/agregar-pacientes"
-                    element={<AdminAddPacientes />}
-                  />
-                  <Route
-                    path="/admin-dashboard/historias"
-                    element={<AdminHistorias />}
-                  />
-                  <Route
-                    path="/admin-dashboard/agregar-historias"
-                    element={<AdminAddHistorias />}
-                  />
-                  <Route
-                    path="/admin-dashboard/configuracion"
-                    element={<AdminConfiguracion />}
-                  />
-                </Route>
+                  {/* AREA PRIVADA */}
+                  <Route path="/admin-dashboard" element={<RutaProtegida />}>
+                    <Route index element={<AdminDashBoard />} />
+                    <Route
+                      path="/admin-dashboard/empleados"
+                      element={<AdminEmpleados />}
+                    />
+                    <Route
+                      path="/admin-dashboard/agregar-empleados"
+                      element={<AdminAddEmpleados />}
+                    />
+                    <Route
+                      path="/admin-dashboard/pacientes"
+                      element={<AdminPacientes />}
+                    />
+                    <Route
+                      path="/admin-dashboard/agregar-pacientes"
+                      element={<AdminAddPacientes />}
+                    />
+                    <Route
+                      path="/admin-dashboard/historias"
+                      element={<AdminHistorias />}
+                    />
+                    <Route
+                      path="/admin-dashboard/agregar-historias"
+                      element={<AdminAddHistorias />}
+                    />
+                    <Route
+                      path="/admin-dashboard/configuracion"
+                      element={<AdminConfiguracion />}
+                    />
+                  </Route>
 
-                <Route path="/auxiliar-dashboard" element={<RutaProtegida />}>
-                  <Route
-                    path="/auxiliar-dashboard/pacientes"
-                    element={<AuxiliarPacientes />}
-                  />
-                  <Route
-                    path="/auxiliar-dashboard/agregar-pacientes"
-                    element={<AuxiliarAddPacientes />}
-                  />
-                  <Route
-                    path="/auxiliar-dashboard/historias"
-                    element={<AuxiliarHistorias />}
-                  />
-                  <Route
-                    path="/auxiliar-dashboard/configuracion"
-                    element={<AuxiliarConfiguracion />}
-                  />
-                  <Route index element={<AuxiliarDashBoard />} />
-                </Route>
-
-                <Route
-                  path="/veterinario-dashboard"
-                  element={<RutaProtegida />}
-                >
-                  <Route
-                    path="/veterinario-dashboard/pacientes"
-                    element={<VeterinarioPacientes />}
-                  />
-                  <Route
-                    path="/veterinario-dashboard/agregar-historias"
-                    element={<VeterinarioAddHistorias />}
-                  />
+                  <Route path="/auxiliar-dashboard" element={<RutaProtegida />}>
+                    <Route
+                      path="/auxiliar-dashboard/pacientes"
+                      element={<AuxiliarPacientes />}
+                    />
+                    <Route
+                      path="/auxiliar-dashboard/agregar-pacientes"
+                      element={<AuxiliarAddPacientes />}
+                    />
+                    <Route
+                      path="/auxiliar-dashboard/historias"
+                      element={<AuxiliarHistorias />}
+                    />
+                    <Route
+                      path="/auxiliar-dashboard/configuracion"
+                      element={<AuxiliarConfiguracion />}
+                    />
+                    <Route index element={<AuxiliarDashBoard />} />
+                  </Route>
 
                   <Route
-                    path="/veterinario-dashboard/historias"
-                    element={<VeterinarioHistorias />}
-                  />
-                  <Route
-                    path="/veterinario-dashboard/configuracion"
-                    element={<VeterinarioConfiguración />}
-                  />
-                  <Route index element={<VeterinarioDashBoard />} />
-                </Route>
-              </Routes>
-            </HistoriasProvider>
-          </VeterinariosProvider>
-        </PacientesProvider>
-      </AuthProvider>
+                    path="/veterinario-dashboard"
+                    element={<RutaProtegida />}
+                  >
+                    <Route
+                      path="/veterinario-dashboard/pacientes"
+                      element={<VeterinarioPacientes />}
+                    />
+                    <Route
+                      path="/veterinario-dashboard/agregar-historias"
+                      element={<VeterinarioAddHistorias />}
+                    />
+
+                    <Route
+                      path="/veterinario-dashboard/historias"
+                      element={<VeterinarioHistorias />}
+                    />
+                    <Route
+                      path="/veterinario-dashboard/configuracion"
+                      element={<VeterinarioConfiguración />}
+                    />
+                    <Route index element={<VeterinarioDashBoard />} />
+                  </Route>
+                </Routes>
+              </HistoriasProvider>
+            </VeterinariosProvider>
+          </PacientesProvider>
+        </AuthProvider>
+      </PaleteProvider>
     </BrowserRouter>
   );
 }

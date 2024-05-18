@@ -4,15 +4,18 @@ import Alerta from "../components/Alerta";
 import useHistorias from "../hooks/useHistorias";
 import usePacientes from "../hooks/usePacientes";
 import CardHistoria from "../components/CardHistoria";
+import usePalette from "../hooks/usePalette";
 
 const Historias = () => {
   const { historias } = useHistorias();
   const { pacientes } = usePacientes();
+  const {modoOscuro} = usePalette();
 
   const [paciente, setPaciente] = useState("");
   const [HISTORIAS, setHISTORIAS] = useState(historias);
   const [alerta, setAlerta] = useState({});
 
+  const sectionClase = `relative md:mt-2 ${modoOscuro ? 'bg-gray-900': 'bg-slate-100'}  md:px-3 rounded-lg overflow-y-auto max-h-[660px] md:max-h-[400px] py-2`;
   useEffect(() => {
     setTimeout(() => {
       setAlerta({});
@@ -45,12 +48,12 @@ const Historias = () => {
   return (
     <>
       <div className="text-center md:text-left md:px-8 ">
-        <h2 className="text-gray-300 text-sm">Tus Historias Clínicas</h2>
+        <h2 className={`${modoOscuro ? 'text-gray-300' : 'text-black'} text-sm`}>Historias clínicas de la veterinaria</h2>
         <p className="text-zinc-500 text-[11px]">
-          Revisa las historias clínicas de tus pacientes
+          Revisa las historias clínicas de los pacientes
         </p>
       </div>
-      <section className="relative md:mt-2 bg-gray-900 md:px-3 rounded-lg overflow-y-auto max-h-[660px] md:max-h-[400px] py-2">
+      <section className={sectionClase}>
         <div className="mb-2">
           <form
             onSubmit={handleSubmit}

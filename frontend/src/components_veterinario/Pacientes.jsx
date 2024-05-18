@@ -1,38 +1,43 @@
 /* eslint-disable react/prop-types */
-import { useState } from "react";
+import { useState} from "react";
 import Card from "../components/Card";
 import Alerta from "../components/Alerta";
 import usePacientes from "../hooks/usePacientes";
 import Modal from "../components/Modal";
+import usePalette from "../hooks/usePalette";
+
 const Pacientes = () => {
-  const { pacientes } = usePacientes();
+  const {pacientes} = usePacientes();
   const [docPropietario, setDocPropietario] = useState("");
   const [PACIENTES, setPACIENTES] = useState(pacientes);
   const [alerta, setAlerta] = useState({});
   const [modal, setModal] = useState({});
+  const {modoOscuro} = usePalette();
 
   //--Use
-  const { obtenerPaciente } = usePacientes();
+  const { obtenerPaciente} = usePacientes();
+
+ 
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if ([docPropietario].includes("")) {
+    if([docPropietario].includes("")){
       setPACIENTES(pacientes);
       return;
     }
-    const respuesta = await obtenerPaciente(docPropietario);
+    const respuesta = await obtenerPaciente (docPropietario);
     setPACIENTES(respuesta);
   };
   const { error } = alerta;
   return (
     <div className="">
       <div className="text-center md:text-left md:px-16">
-        <h2 className="text-gray-300">Tus pacientes</h2>
-        <p className="text-zinc-500 text-[12px]">
-          Revisa tus pacientes
+        <h2 className={`${modoOscuro ? 'text-gray-300 ' : 'text-black'} text-[14px]`}>Tus pacientes</h2>
+        <p className="text-zinc-500 text-[11px]">
+          Administra los pacientes de tu veterinaria
         </p>
       </div>
-      <section className="relative mt-10 md:mt-2 bg-gray-900 md:px-3 rounded-lg">
+      <section className={`relative mt-10 md:mt-2 ${modoOscuro ? 'bg-gray-900' : 'bg-gray-100'} md:px-3 rounded-lg`}>
         {error ? <Alerta alerta={alerta} /> : null}
         <div className="mb-2">
           <form

@@ -1,15 +1,17 @@
 /* eslint-disable react/prop-types */
 // eslint-disable-next-line react/prop-types
 import useAuth from "../hooks/useAuth";
+import usePalette from "../hooks/usePalette";
 
 const Dashboard = () => {
   const { auth } = useAuth();
   const { info } = auth;
-
+  const {modoOscuro} = usePalette();
+  
   return (
     <>
       <div className="text-center md:text-left md:px-16">
-        <h2 className="text-gray-300">
+        <h2 className={`${modoOscuro ? 'text-gray-300' : 'text-black'}  `}>
           Bienvenido de vuelta,
           <span className="font-bold"> {info.veterinario.nombre}!!</span>
         </h2>

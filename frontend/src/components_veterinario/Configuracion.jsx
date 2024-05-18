@@ -3,6 +3,7 @@ import useAuth from "../hooks/useAuth";
 import useVeterinarios from "../hooks/useVeterinarios";
 import Alerta from "../components/Alerta";
 import Input from "../components/Input";
+import usePalette from "../hooks/usePalette";
 
 const Configuracion = () => {
   const veterinario = useAuth().auth.info.veterinario;
@@ -19,6 +20,8 @@ const Configuracion = () => {
   //-Fin states
 
   //-Variables
+  const {modoOscuro} = usePalette();
+
   const divClase =
     "py-2 px-5 bg-gray-800 flex items-center justify-between rounded-lg";
   const inputClase =
@@ -26,6 +29,7 @@ const Configuracion = () => {
   const pClase = "text-[10px] text-gray-500";
   const spanClase = "flex items-center justify-center text-gray-400";
   const nameIonIcon = "paw-outline";
+  const sectionClase =`relative mt-2 p-5 ${modoOscuro ? 'bg-gray-950':'bg-slate-100'}  md:px-3 rounded-lg overflow-y-auto max-h-[660px] md:max-h-[400px] py-2`;
 
   //-Funciones
   const handleSubmit = async (e) => {
@@ -68,7 +72,7 @@ const Configuracion = () => {
           Edita tu información personal{" "}
         </p>
       </div>
-      <section className="relative mt-2 p-5 bg-gray-950 md:px-3 rounded-lg overflow-y-auto max-h-[660px] md:max-h-[400px] py-2">
+      <section className={sectionClase}>
         {alerta.msg ? <Alerta alerta={alerta} /> : null}
 
         <form
