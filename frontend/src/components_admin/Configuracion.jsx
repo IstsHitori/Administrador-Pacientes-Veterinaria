@@ -3,7 +3,7 @@ import useAuth from "../hooks/useAuth";
 import useVeterinarios from "../hooks/useVeterinarios";
 import Alerta from "../components/Alerta";
 import Input from "../components/Input";
-
+import usePalette from "../hooks/usePalette";
 const Configuracion = () => {
   const veterinario = useAuth().auth.info.veterinario;
   const {actualizarVeterinario} = useVeterinarios();
@@ -16,6 +16,7 @@ const Configuracion = () => {
   const [vPassword,setVPassword] = useState("");
   const [vConfirmarPass,setVconfirmarPass] = useState("");
   const [alerta, setAlerta] = useState({});
+  const {modoOscuro} = usePalette();
   //-Fin states
 
   //-Variables
@@ -26,7 +27,7 @@ const Configuracion = () => {
   const pClase = "text-[10px] text-gray-500";
   const spanClase = "flex items-center justify-center text-gray-400";
   const nameIonIcon = "paw-outline";
-
+const sectionClass = `relative mt-2 p-5 ${modoOscuro ? 'bg-gray-950' : 'bg-slate-100'} md:px-3 rounded-lg overflow-y-auto max-h-[660px] md:max-h-[400px] py-2`
   //-Funciones
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -63,12 +64,12 @@ const Configuracion = () => {
   return (
     <>
       <div className="text-center md:text-left md:px-16 ">
-        <h2 className="text-gray-300 text-sm">Tu información personal</h2>
+        <h2 className={`${modoOscuro ? 'text-gray-300' : 'text-black'} text-sm`}>Tu información personal</h2>
         <p className="text-zinc-500 text-[11px]">
           Edita tu información personal{" "}
         </p>
       </div>
-      <section className="relative mt-2 p-5 bg-gray-950 md:px-3 rounded-lg overflow-y-auto max-h-[660px] md:max-h-[400px] py-2">
+      <section className={sectionClass}>
         {alerta.msg ? <Alerta alerta={alerta} /> : null}
 
         <form

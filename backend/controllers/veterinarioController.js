@@ -73,6 +73,11 @@ const autenticar = async (req, res) => {
     const error = new Error("Usuario no confirmado");
     return res.status(403).json({ msg: error.message });
   }
+  //Comprobar si el usuario está permitido para acceder al programa o no
+  if(!usuario.estado){
+    const error = new Error("No tienes permiso para acceder");
+    return res.status(403).json({msg:error.message});
+  }
   //3-Revisar si su password es correcto
   if (!(await usuario.comprobarPassword(password))) {
     const error = new Error("Contraseña incorrecta");
@@ -163,12 +168,14 @@ const actualizarTrabajador = async (req, res) => {
     if (!EMPLEADO) {
       res.json({ msg: `No se encontró el empleado` });
     }
-    EMPLEADO.estado = req.body.estado || EMPLEADO.estado;
+    console.log(req.body.estado)
+    EMPLEADO.estado = Boolean(req.body.estado);
     EMPLEADO.nombre = req.body.nombre || EMPLEADO.nombre;
     EMPLEADO.telefono = req.body.telefono || EMPLEADO.telefono;
     EMPLEADO.email = req.body.email || EMPLEADO.email;
     EMPLEADO.password = req.body.password || EMPLEADO.password;
     const empledadoActualizado = await EMPLEADO.save();    
+    console.log(empledadoActualizado)
     return res.json();
   } catch (error) {
     console.log(error);

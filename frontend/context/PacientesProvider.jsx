@@ -82,11 +82,13 @@ export const PacientesProvider = ({ children }) => {
           Authorization: `Bearer ${token}`,
         },
       };
-      await clienteAxios.put(
+      console.log(pacienteActualizado)
+      const respuesta = await clienteAxios.put(
         `/pacientes/${pacienteActualizado._id}`,
         pacienteActualizado,
         config
       );
+      console.log(respuesta)
     } catch (error) {
       console.log(error);
     }

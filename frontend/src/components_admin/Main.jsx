@@ -12,18 +12,16 @@ import AddPacientes from "./AddPacientes.jsx";
 import Historias from "./Historias.jsx";
 import AddHistorias from "./AddHistorias.jsx";
 import Configuracion from "./Configuracion.jsx";
+import usePalette from "../hooks/usePalette.jsx";
 //--
 
 //--Use
-import useVeterinarios from "../hooks/useVeterinarios.jsx";
-import useHistorias from "../hooks/useHistorias.jsx";
-import usePacientes from "../hooks/usePacientes.jsx";
 
 const Main = () => {
   //
   const location = useLocation();
   const [activePath, setActivePath] = useState(location.pathname);
-  const { pacientes } = usePacientes();
+  const {modoOscuro} = usePalette();
   useEffect(() => {
     setActivePath(location.pathname);
   }, [location]);
@@ -31,7 +29,7 @@ const Main = () => {
 
   return (
     <main className="p-3 flex items-center md:w-full pt-[2rem]">
-      <section className="bg-gradient-to-t from-black h-full to-gray-900 rounded-xl md:w-full p-5 py-7">
+      <section className={`bg-gradient-to-t ${modoOscuro ? 'from-black to-gray-900' : 'from-white to-white'}  rounded-xl md:w-full p-5 py-7 h-full`}>
         {activePath === "/admin-dashboard" ? <Dashboard /> : ""}
         {activePath === "/admin-dashboard/empleados" ? <Empleados /> : ""}
         {activePath === "/admin-dashboard/agregar-pacientes" ? (

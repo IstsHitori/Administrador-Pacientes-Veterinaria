@@ -6,10 +6,12 @@ import usePacientes from "../hooks/usePacientes";
 import useVeterinarios from "../hooks/useVeterinarios";
 import useAuth from "../hooks/useAuth";
 import { Trabajadores } from "../helpers/helpers";
+import usePalette from "../hooks/usePalette";
 
 const AddPacientes = () => {
   const { auth } = useAuth();
   const { info } = auth;
+  const {modoOscuro} = usePalette();
   //ID ADMINISTRADOR
   const id_admin = info.veterinario._id;
   //--
@@ -28,7 +30,8 @@ const AddPacientes = () => {
 
   //Variables
   const divClase =
-    "py-2 px-5 bg-gray-800 flex items-center justify-between rounded-lg";
+    `py-2 px-5 ${modoOscuro ? 'bg-gray-800':'bg-gray-800'} flex items-center justify-between rounded-lg`;
+  const sectionClase = `mt-9 ${modoOscuro ? 'bg-gray-950' : 'bg-slate-100'}  p-3 rounded-lg`
   //-----
   const [alerta, setAlerta] = useState({});
   useEffect(() => {
@@ -69,12 +72,12 @@ const AddPacientes = () => {
   return (
     <div>
       <div className="text-center md:text-left md:px-16">
-        <h2 className="text-gray-300 text-[14px]">Registra tus pacientes</h2>
+        <h2 className={`${modoOscuro ? 'text-gray-300' : 'text-black'} text-[14px]`}>Registra tus pacientes</h2>
         <p className="text-zinc-500 text-[11px]">
           Registra los pacientes de tu veterinaria
         </p>
       </div>
-      <section className="mt-9 bg-gray-950 p-3 rounded-lg">
+      <section className={sectionClase}>
         {alerta.msg && <Alerta alerta={alerta} />}
         <form
           className="grid md:grid-cols-3 gap-3 mt-2"

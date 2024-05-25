@@ -7,14 +7,14 @@ import useVeterinarios from "../hooks/useVeterinarios";
 import useAuth from "../hooks/useAuth";
 import Alerta from "../components/Alerta";
 import { useState, useEffect } from "react";
-
+import usePalette from "../hooks/usePalette";
 
 const Empleados = () => {
   const {auth} = useAuth();
   const {info}  = auth;
   const {guardarVeterinarios, veterinarios} = useVeterinarios();
-
   const trabajadores = Trabajadores(veterinarios);
+  const {modoOscuro} = usePalette();
 
   const { AUXILIARES } = trabajadores;
   const { VETERINARIOS } = trabajadores;
@@ -38,7 +38,7 @@ const Empleados = () => {
   };
 
   const handleEstadoChange = (id, nuevoEstado) => {
-    const empleadosActualizados = array_trabajadores.map((emp) => {
+    const empleadosActualizados = empleados.map((emp) => {
       if (emp._id === id) return { ...emp, estado: nuevoEstado };
       return emp;
     });
@@ -48,12 +48,11 @@ const Empleados = () => {
   return (
     <>
       <div className="text-center md:text-left md:px-16 ">
-        <h2 className="text-gray-300">
-          Bienvenido de vuelta,
-          <span className="font-bold"> {info.veterinario.nombre}!!</span>
+        <h2 className={`${modoOscuro ? 'text-gray-300' :'text-black'}`}>
+          Tus trabajadores
         </h2>
         <p className="text-zinc-500 text-[12px]">
-          Tu Admin Dashboard, vuelve y explora la información de tu veterinaria
+          Administra los trabajadores de tu veterinaria
         </p>
       </div>
       <article className="relative mt-4">
@@ -64,7 +63,7 @@ const Empleados = () => {
           className="md:w-full max-h-[370px] overflow-y-auto"
           action=""
         >
-          <table className=" bg-zinc-950 md:pt-2 rounded-lg w-full ">
+          <table className={`${modoOscuro ? 'bg-zinc-950' :'bg-slate-100'}  md:pt-2 rounded-lg w-full`} >
             <thead className="text-zinc-100 text-[7px] md:text-[12px] sticky top-0">
               <tr className="border-b border-zinc-700">
                 <Th
@@ -81,7 +80,7 @@ const Empleados = () => {
                 />
               </tr>
             </thead>
-            <tbody className="text-[6px] md:text-[12px] text-zinc-300">
+            <tbody className={`${modoOscuro ? 'text-zinc-300' : 'text-black font-semibold'} text-[6px] md:text-[12px] `}>
               {array_trabajadores.map((i) => {
                 return (
                   <Tr

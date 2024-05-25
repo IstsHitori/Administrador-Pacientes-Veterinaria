@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import CardAddHistoria from "../components/CardAddHistoria";
 import Alerta from "../components/Alerta";
 import usePacientes from "../hooks/usePacientes";
+import usePalette from "../hooks/usePalette";
 const AddHistorias = () => {
   //Use
   const { pacientes, obtenerPaciente } = usePacientes();
@@ -13,28 +14,8 @@ const AddHistorias = () => {
   //---
 
   //Variables
-  const PALETA_COLORES = Object.freeze({
-    MODO_OSCURO: {
-      article: "bg-[#060A13] text-white",
-      img: "bg-zinc-800",
-      h4: "tex-white",
-      h4_p: "text-gray-400",
-      ModalClases: {
-        backGround: "bg-gray-900",
-        h1: "text-gray-100",
-      },
-    },
-    MODO_CLARO: {
-      article: "bg-white text-white",
-      img: "bg-zinc-800",
-      h4: "tex-white",
-      h4_p: "text-gray-400",
-      ModalClases: {
-        backGround: "bg-gray-200",
-      },
-    },
-  });
-  const modoOscuro = true;
+  const {modoOscuro} = usePalette();
+  const sectionClase = `relative md:mt-2 ${modoOscuro ? 'bg-gray-900 ' : 'bg-slate-100'} md:px-3 rounded-lg overflow-y-auto max-h-[660px] md:max-h-[400px]`;
   //---
 
   const handleSubmit = async (e) => {
@@ -64,13 +45,13 @@ const AddHistorias = () => {
   return (
     <div>
       <div className="text-center md:text-left md:px-16">
-        <h2 className="text-gray-300">Tus historias clínicas</h2>
+        <h2 className={`${modoOscuro ? 'text-gray-300' : 'text-black'}`}>Tus historias clínicas</h2>
         <p className="text-zinc-500 text-[12px]">
           Registra historias clínicas a tus pacientes
         </p>
       </div>
       <div>
-        <section className="relative md:mt-2 bg-gray-900 md:px-3 rounded-lg overflow-y-auto max-h-[660px] md:max-h-[400px]">
+        <section className={sectionClase}>
           <div className="mb-2">
             <form
               onSubmit={handleSubmit}
@@ -103,11 +84,6 @@ const AddHistorias = () => {
                 <CardAddHistoria
                   key={paciente._id}
                   paciente={paciente}
-                  clase={
-                    modoOscuro
-                      ? PALETA_COLORES.MODO_OSCURO
-                      : PALETA_COLORES.MODO_CLARO
-                  }
                 />
               );
             })}

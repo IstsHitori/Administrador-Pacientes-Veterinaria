@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import usePalette from "../hooks/usePalette";
 const Card = ({ info, setModal }) => {
-  const { nombre, docPropietario} = info;
+  const { nombre, docPropietario,estado} = info;
   const {modoOscuro} = usePalette();
   const handleClick  = async() => {
     setModal({data:info, activo: true});
@@ -13,7 +13,7 @@ const Card = ({ info, setModal }) => {
   
   return (
     <article className={articleClass}>
-      <div className={`rounded-[50%]  w-14 h-14 flex items-center justify-center text-lg text-zinc-950 ${info.estado ? "bg-blue-500" : "bg-red-500"} font-bold`}>
+      <div className={`rounded-[50%]  w-14 h-14 flex items-center justify-center text-lg text-zinc-950 ${estado ? "bg-blue-500" : "bg-red-500"} font-bold`}>
         {nombre[0] + nombre[1]}
       </div>
       <p className={pClass}>

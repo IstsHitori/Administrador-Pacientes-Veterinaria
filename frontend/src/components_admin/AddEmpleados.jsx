@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import Alerta from "../components/Alerta";
 import useVeterinarios from "../hooks/useVeterinarios";
-
+import usePalette from "../hooks/usePalette";
 const AddEmpleados = () => {
   //-use
   const {guardarVeterinario} = useVeterinarios();
-
+  const {modoOscuro} = usePalette();
 
   const [nombre, setNombre] = useState("");
   const [telefono, setTelefono] = useState("");
@@ -15,6 +15,12 @@ const AddEmpleados = () => {
   const [rol, setRol] = useState("AUXILIAR_ROL");
   const [alerta, setAlerta] = useState({});
 
+  const formClase = ` ${modoOscuro ? '' : 'bg-slate-100'} p-4 flex mt-2 flex-col gap-4 md:grid md:grid-cols-2 md:content-center md:justify-center`;
+
+  const divClase = `py-2 px-5 ${modoOscuro ? 'bg-gray-800' : 'bg-blue-700'}  flex items-center justify-between rounded-lg`;
+  const pClase = `text-[10px] ${modoOscuro ? 'text-gray-500': 'text-white'}`;
+
+  const inputBtnClass = `py-2 px-5 text-center text-white font-semibold ${modoOscuro ? 'bg-blue-600 hover:bg-blue-700' :'bg-stone-900 hover:bg-stone-950'}  rounded-lg hover:cursor-pointer` 
   useEffect(() =>{
     setTimeout(()=> {
       setAlerta({});
@@ -49,7 +55,7 @@ const AddEmpleados = () => {
   return (
     <div>
       <div className="text-center md:text-left md:px-16">
-        <h2 className="text-gray-300">Registra tus trabajadores</h2>
+        <h2 className={`${modoOscuro ? 'text-gray-300' : 'text-black'}`}>Registra tus trabajadores</h2>
         <p className="text-zinc-500 text-[12px]">
           Registra los trabajadores de tu veterinaria
         </p>
@@ -58,13 +64,13 @@ const AddEmpleados = () => {
 
         { alerta.msg && <Alerta alerta={alerta} />}
         <form
-          className="flex mt-2 flex-col gap-4 md:grid md:grid-cols-2 md:content-center md:justify-center"
+          className={formClase}
           action=""
           onSubmit={handleSubmit}
         >
-          <div className="py-2 px-5 bg-gray-800 flex items-center justify-between rounded-lg">
+          <div className={divClase}>
             <div>
-              <p className="text-[10px] text-gray-500">Nombre</p>
+              <p className={pClase}>Nombre</p>
               <input
                 className="outline-none bg-transparent text-[11.5px] text-white md:w-[20rem]"
                 type="text"
@@ -79,9 +85,9 @@ const AddEmpleados = () => {
             </span>
           </div>
 
-          <div className="py-2 px-5 bg-gray-800 flex items-center justify-between rounded-lg">
+          <div className={divClase}>
             <div>
-              <p className="text-[10px] text-gray-500">Telefono</p>
+              <p className={pClase}>Telefono</p>
               <input
                 className="[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none focus:outline-none bg-transparent text-[11.5px] md:w-[20rem] text-white"
                 type="number"
@@ -96,9 +102,9 @@ const AddEmpleados = () => {
             </span>
           </div>
 
-          <div className="py-2 px-5 bg-gray-800 flex items-center justify-between rounded-lg">
+          <div className={divClase}>
             <div>
-              <p className="text-[10px] text-gray-500">Correo</p>
+              <p className={pClase}>Correo</p>
               <input
                 className="outline-none bg-transparent md:w-[20rem] text-[11.5px] text-white"
                 type="email"
@@ -113,9 +119,9 @@ const AddEmpleados = () => {
             </span>
           </div>
 
-          <div className="py-2 px-5 bg-gray-800 flex items-center justify-between rounded-lg">
+          <div className={divClase}>
             <div>
-              <p className="text-[10px] text-gray-500">Contraseña</p>
+              <p className={pClase}>Contraseña</p>
               <input
                 className="outline-none bg-transparent md:w-[20rem] text-[11.5px] text-white"
                 type="password"
@@ -130,9 +136,9 @@ const AddEmpleados = () => {
             </span>
           </div>
 
-          <div className="py-2 px-5 bg-gray-800 flex items-center justify-between rounded-lg">
+          <div className={divClase}>
             <div>
-              <p className="text-[10px] text-gray-500">Confirmar contraseña</p>
+              <p className={pClase}>Confirmar contraseña</p>
               <input
                 className="outline-none bg-transparent md:w-[20rem] text-[11.5px] text-white"
                 type="password"
@@ -147,11 +153,11 @@ const AddEmpleados = () => {
             </span>
           </div>
 
-          <div className="py-2 px-5 bg-gray-800 flex items-center justify-between rounded-lg">
+          <div className={divClase}>
             <div>
-              <p className="text-[10px] text-gray-500">Rol</p>
+              <p className={pClase}>Rol</p>
               <select
-                className="text-[11px] outline-none bg-gray-800 text-white"
+                className={`text-[11px] outline-none ${modoOscuro ? 'bg-gray-800 text-white' : 'bg-stone-200 text-black'} `}
                 value={rol}
                 onChange={(e) => {
                   setRol(e.target.value);
@@ -168,7 +174,7 @@ const AddEmpleados = () => {
             </span>
           </div>
           <input
-            className="Registrar Empleado py-2 px-5 text-center text-white font-semibold bg-blue-600 hover:bg-blue-700 rounded-lg hover:cursor-pointer"
+            className={inputBtnClass}
             type="submit"
             value="Enviar"
           />

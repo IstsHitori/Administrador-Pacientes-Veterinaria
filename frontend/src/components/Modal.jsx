@@ -5,7 +5,7 @@ import Alerta from "./Alerta";
 import usePacientes from "../hooks/usePacientes";
 import usePalette from "../hooks/usePalette";
 const Modal = ({ infoPaciente, setModal, esAdmin }) => {
-  const {modoOscuro} = usePalette();
+  const { modoOscuro } = usePalette();
   //Funciones
   const formarDate = (date) => {
     return date.substring(0, 10);
@@ -31,8 +31,12 @@ const Modal = ({ infoPaciente, setModal, esAdmin }) => {
   const [sintomas, setSintomas] = useState(infoPaciente.sintomas);
   const [estado, setEstado] = useState(infoPaciente.estado);
   const [alerta, setAlerta] = useState({});
-  const divClase = `${modoOscuro ? 'bg-gray-800' : 'bg-white'} py-2 px-5 flex items-center justify-between rounded-lg `;
-  const inputClase = `${modoOscuro ? 'text-white' : 'text-black' } outline-none bg-transparent text-[11.5px] md:w-[10rem]`
+  const divClase = `${
+    modoOscuro ? "bg-gray-800" : "bg-white"
+  } py-2 px-5 flex items-center justify-between rounded-lg `;
+  const inputClase = `${
+    modoOscuro ? "text-white" : "text-black"
+  } outline-none bg-transparent text-[11.5px] md:w-[10rem]`;
 
   const ID_VETERINARIO = infoPaciente.veterinario;
   const { _id, auxiliar } = infoPaciente;
@@ -41,8 +45,11 @@ const Modal = ({ infoPaciente, setModal, esAdmin }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if(!esAdmin){
-      setAlerta({msg:"No tienes permiso para editar pacientes",error:true});
+    if (!esAdmin) {
+      setAlerta({
+        msg: "No tienes permiso para editar pacientes",
+        error: true,
+      });
       return;
     }
     if (
@@ -76,8 +83,8 @@ const Modal = ({ infoPaciente, setModal, esAdmin }) => {
       veterinario,
     };
     try {
-      const respuesta = await actualizarPaciente(pacienteActualizado);
-      console.log(respuesta)
+      console.log(pacienteActualizado);
+      await actualizarPaciente(pacienteActualizado);
       setAlerta({ msg: "Datos actualizados correctamente", error: false });
     } catch (error) {
       console.log(error);
@@ -104,13 +111,12 @@ const Modal = ({ infoPaciente, setModal, esAdmin }) => {
         `/veterinarios/obtener-trabajador/${ID_VETERINARIO}`,
         config
       );
-      const nombreVeterinario =  respuesta.data.veterinario;
-      if(nombreVeterinario !== null){
-        setVeterinario(nombreVeterinario.nombre)
+      const nombreVeterinario = respuesta.data.veterinario;
+      if (nombreVeterinario !== null) {
+        setVeterinario(nombreVeterinario.nombre);
         return;
       }
-      setVeterinario("No existe")
-
+      setVeterinario("No existe");
     };
     cargarNombreVeterinario();
   }, [ID_VETERINARIO]);
@@ -129,7 +135,11 @@ const Modal = ({ infoPaciente, setModal, esAdmin }) => {
         <article className="absolute  min-h-[400px] z-10 max-w-[500px] left-[25%]">
           {alerta.msg && <Alerta alerta={alerta} />}
 
-          <div className={`${modoOscuro ? 'bg-zinc-950' : 'bg-blue-600'} rounded-lg p-4`}>
+          <div
+            className={`${
+              modoOscuro ? "bg-zinc-950" : "bg-blue-600"
+            } rounded-lg p-4`}
+          >
             <h4 className="text-sm text-white text-center mb-2">
               Información completa del paciente
             </h4>
@@ -216,25 +226,18 @@ const Modal = ({ infoPaciente, setModal, esAdmin }) => {
                     onChange={(e) => {
                       setEstado(e.target.value === "true");
                     }}
-                    className={`outline-none ${modoOscuro ? 'bg-gray-800' : 'bg-white' } text-[11.5px] ${
-                      estado ? "text-green-500" : "text-red-500"
+                    className={`outline-none ${
+                      modoOscuro ? "bg-gray-800" : "bg-white"
+                    } text-[11.5px] ${
+                      estado === true ? "text-green-500" : "text-red-500"
                     } md:w-[10rem]`}
+                    value={estado}
                   >
-                    <option
-                      className={`${
-                        estado ? "text-green-500" : "text-red-500"
-                      }`}
-                      value={true}
-                    >
+                    <option className={`${"text-green-500"}`} value={true}>
                       {"true"}
                     </option>
 
-                    <option
-                      className={`${
-                        !estado ? "text-green-500" : "text-red-500"
-                      }`}
-                      value={false}
-                    >
+                    <option className={`${"text-red-500"}`} value={false}>
                       {"false"}
                     </option>
                   </select>
@@ -314,7 +317,11 @@ const Modal = ({ infoPaciente, setModal, esAdmin }) => {
                 </span>
               </div>
               <input
-                className={`${modoOscuro ? 'text-white bg-blue-600 hover:bg-blue-700' :'text-black bg-blue-400 hover:bg-blue-500' } rounded-lg hover:cursor-pointer max-h-[70px]  mt-5`}
+                className={`${
+                  modoOscuro
+                    ? "text-white bg-blue-600 hover:bg-blue-700"
+                    : "text-black bg-blue-400 hover:bg-blue-500"
+                } rounded-lg hover:cursor-pointer max-h-[70px]  mt-5`}
                 type="submit"
                 value="Guardar"
               />
@@ -502,7 +509,6 @@ const Modal = ({ infoPaciente, setModal, esAdmin }) => {
                   <ion-icon name="people-outline"></ion-icon>{" "}
                 </span>
               </div>
-     
             </form>
             <div className="flex items-center justify-center mt-5">
               <button

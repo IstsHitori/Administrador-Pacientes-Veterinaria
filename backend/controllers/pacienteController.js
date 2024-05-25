@@ -54,17 +54,17 @@ const obtenerPaciente = async (req, res) => {
 
 const actualizarPaciente = async (req, res) => {
   const { id } = req.params;
+  const ADMIN_ROL = (await Roles.find({nombre:"ADMIN_ROL"}))[0];
   const paciente = await Paciente.findById(id);
   if (!paciente) {
     const error = new Error("Paciente no encontrado");
     return res.status(404).json({ msg: error.message });
   }
-  if (paciente.auxiliar._id.toString() !== req.veterinario._id.toString()) {
+  if ((paciente.auxiliar._id.toString() !== req.veterinario._id.toString()) && (ADMIN_ROL._id.toString() !== req.veterinario.rol.toString())) {
     const error = new Error("No tienes permiso para editar este paciente");
     return res.json({ msg: error.message });
   }
   //Actualizamos el paciente
-  console.log("se está actualizado")
   paciente.nombre = req.body.nombre || paciente.nombre;
   paciente.propietario = req.body.propietario || paciente.propietario;
   paciente.telefono = req.body.telefono || paciente.telefono;

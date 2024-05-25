@@ -41,7 +41,7 @@ export const VeterinariosProvider = ({ children }) => {
     };
     try {
       empleados.forEach(async (empleado) => {
-        console.log(empleado.rol)
+        console.log(empleado.nombre)
         await clienteAxios.put(
           `/veterinarios/actualizar-trabajador/${empleado._id}`,
           empleado,
