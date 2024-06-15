@@ -168,14 +168,12 @@ const actualizarTrabajador = async (req, res) => {
     if (!EMPLEADO) {
       res.json({ msg: `No se encontró el empleado` });
     }
-    console.log(req.body.estado)
     EMPLEADO.estado = Boolean(req.body.estado);
     EMPLEADO.nombre = req.body.nombre || EMPLEADO.nombre;
     EMPLEADO.telefono = req.body.telefono || EMPLEADO.telefono;
     EMPLEADO.email = req.body.email || EMPLEADO.email;
     EMPLEADO.password = req.body.password || EMPLEADO.password;
     const empledadoActualizado = await EMPLEADO.save();    
-    console.log(empledadoActualizado)
     return res.json();
   } catch (error) {
     console.log(error);
@@ -209,6 +207,10 @@ const obtenerTrabajadores = async (req, res) => {
 };
 
 const perfil = async (req, res) => {
+  if(req.veterinario === null || undefined){
+    const error = new Error("No existe el usuario")
+    return res.status(403).json({msg:error.message});
+  }
   const veterinario = await Veterinario.findById(req.veterinario._id)
     .populate("rol", "-_id nombre")
     .select("-password");
