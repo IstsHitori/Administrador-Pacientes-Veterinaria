@@ -4,7 +4,7 @@ import useVeterinarios from "../hooks/useVeterinarios";
 import Alerta from "../components/Alerta";
 import Input from "../components/Input";
 import usePalette from "../hooks/usePalette";
-
+import Manual from "../components/Manual";
 const Configuracion = () => {
   const veterinario = useAuth().auth.info.veterinario;
   const {actualizarVeterinario} = useVeterinarios();
@@ -17,6 +17,7 @@ const Configuracion = () => {
   const [vPassword,setVPassword] = useState("");
   const [vConfirmarPass,setVconfirmarPass] = useState("");
   const [alerta, setAlerta] = useState({});
+
   //-Fin states
 
   //-Variables
@@ -162,6 +163,7 @@ const Configuracion = () => {
             value="Guardar cambios"
           />
         </form>
+        <Manual />
       </section>
     </>
   );

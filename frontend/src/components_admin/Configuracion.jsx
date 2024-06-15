@@ -4,6 +4,7 @@ import useVeterinarios from "../hooks/useVeterinarios";
 import Alerta from "../components/Alerta";
 import Input from "../components/Input";
 import usePalette from "../hooks/usePalette";
+import Manual from "../components/Manual";
 const Configuracion = () => {
   const veterinario = useAuth().auth.info.veterinario;
   const {actualizarVeterinario} = useVeterinarios();
@@ -159,6 +160,7 @@ const sectionClass = `relative mt-2 p-5 ${modoOscuro ? 'bg-gray-950' : 'bg-slate
             value="Guardar cambios"
           />
         </form>
+            <Manual />
       </section>
     </>
   );

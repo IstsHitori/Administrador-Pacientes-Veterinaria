@@ -4,6 +4,7 @@ import useVeterinarios from "../hooks/useVeterinarios";
 import Alerta from "../components/Alerta";
 import Input from "../components/Input";
 import usePalette from "../hooks/usePalette";
+import Manual from "../components/Manual";
 const Configuracion = () => {
   const veterinario = useAuth().auth.info.veterinario;
   const {actualizarVeterinario} = useVeterinarios();
@@ -65,7 +66,7 @@ const Configuracion = () => {
   return (
     <>
       <div className="text-center md:text-left md:px-16 ">
-        <h2 className={`${modoOscuro ? '-gray-300': 'text-black'}text text-sm`}>Tu información personal</h2>
+        <h2 className={`${modoOscuro ? '-gray-300': 'text-black'} text-white text-sm`}>Tu información personal</h2>
         <p className="text-zinc-500 text-[11px]">
           Edita tu información personal{" "}
         </p>
@@ -160,6 +161,7 @@ const Configuracion = () => {
             value="Guardar cambios"
           />
         </form>
+        <Manual />
       </section>
     </>
   );
